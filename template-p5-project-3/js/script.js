@@ -9,8 +9,7 @@ author, and this description to match your project!
 ******************/
 
 const AVATAR_SHRINK_AMOUNT = 0.25;
-const AVATAR_GROW_AMOUNT = 10;
-const DONUTS_MAX_SPEED = 10;
+const AVATAR_GROW_AMOUNT = 5;
 let avatar = {
   x:0,
   y:0,
@@ -24,10 +23,11 @@ let avatar = {
 let donuts = {
   x:0,
   y:0,
+  tx:0,
+  ty:o,
   size:70,
-  vx:5,
-  vy:5,
-  velChange:true,
+  vx:0,
+  vy:0,
   color:'#FFC60D'
 };
 
@@ -55,6 +55,8 @@ function setup() {
  createCanvas(700, 500);
  donuts.x = random(0, width);
  donuts.y = random(0, height);
+ donuts.tx = random(0,1000);
+ donuts.ty = random(0,1000);
  noCursor();
 
 }
@@ -77,16 +79,7 @@ function draw() {
     updateAvatar();
     displayAvatar();
     displayDonuts();
-    updateDonuts();
-    if(donuts.velChange==true){
-      changeVelocity();
-    }
-  }else{
-    console.log('congrats! You ate '+ avatar.score+' donuts');
-  }
-
-
-
+}
 
 
 }
@@ -104,26 +97,8 @@ function updateAvatar(){
 }
 
 function updateDonuts(){
-  if(donuts.x+donuts.size/2 < 0 || donuts.x+donuts.size/2 > width){
-    donuts.vx = -donuts.vx;
-  }
-  if(donuts.y+donuts.size/2 < 0 || donuts.y+donuts.size/2 > height){
-    donuts.vy = -donuts.vy;
-  }
-  donuts.x+=donuts.vx;
-  donuts.y+=donuts.vy;
+  donuts.x=noise()
 }
-
-function changeVelocity(){
-  console.log('change: vx - '+ donuts.vx+' vy - '+donuts.vy);
-  donuts.velChange=false;
-  setTimeout(function(){
-    donuts.vx=random(-DONUTS_MAX_SPEED, DONUTS_MAX_SPEED);
-    donuts.vy=random(-DONUTS_MAX_SPEED, DONUTS_MAX_SPEED);
-    donuts.velChange=true;
-  }, 3000);
-}
-
 function displayAvatar(){
   push();
   fill(avatar.color);
@@ -132,6 +107,13 @@ function displayAvatar(){
 }
 
 function displayDonuts(){
+
+  donuts.x = width * noise(donuts.tx);
+  donuts.y = width * noise(donuts.ty);
+
+  donuts.tx+= 0.01;
+  donuts.ty+= 0.01;
+
   push();
   fill(donuts.color);
   ellipse(donuts.x, donuts.y, donuts.size, donuts.size);
@@ -149,12 +131,4 @@ function handleCollision(){
     donuts.x = random(0, width);
     donuts.y = random(0, height);
   }
-}
-
-// positionFood()
-//
-// Set the food's position properties to random numbers within the canvas dimensions
-function positionFood() {
-  food.x = random(0,width);
-  food.y = random(0,height);
 }
