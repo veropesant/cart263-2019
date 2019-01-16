@@ -53,8 +53,7 @@ function preload() {
 
 function setup() {
  createCanvas(700, 500);
- donuts.x = random(0, width);
- donuts.y = random(0, height);
+ positionFood();
  noCursor();
 
 }
@@ -155,6 +154,6 @@ function handleCollision(){
 //
 // Set the food's position properties to random numbers within the canvas dimensions
 function positionFood() {
-  food.x = random(0,width);
-  food.y = random(0,height);
+  donuts.x = random(0,width);
+  donuts.y = random(0,height);
 }
