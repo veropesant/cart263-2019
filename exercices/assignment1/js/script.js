@@ -3,7 +3,7 @@
 Title of Project
 Véronique Pesant
 
-First assignment: The circle eater!
+First assignment: The circle eater
 
 ******************/
 
