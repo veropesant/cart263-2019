@@ -1,0 +1,74 @@
+/*********************************************
+
+Here is a description of any special CSS used.
+In this case it's just padding and margin to 0
+so the canvas is flush with the top left corner.
+
+**********************************************/
+
+body {
+  font-family: Courier, monospace;
+  width: 800px;
+  margin-left: 100px;
+  margin-top: 100px;
+}
+
+div {
+  margin-top: 1em;
+}
+
+/* Redacted elements need to be blanked out */
+.redacted {
+  background-color: black;
+  color: transparent;
+  text-decoration: none;
+}
+
+/* Revealed elements need to be highlighted because it's a disaster! */
+.revealed {
+  background-color: transparent;
+  text-decoration: underline;
+  color: red
+}
+
+#score{
+  position:absolute;
+  top:2%;
+  left:2%;
+  color:black;
+}
+#endGame{
+  display: none;
+  text-align: center;
+  top:50%;
+  left: 50%;
+}
+.hidden{
+  position: absolute;
+}
+.secret{
+  opacity:0;
+}
+.found{
+  opacity:1;
+  color:blue;
+  background-color:yellow;
+  padding:5px;
+}
+
+#w1{
+    top:10%;
+    left:70%;
+}
+#w2{
+    top:50%;
+    left:5%;
+}
+#w3{
+    top:6%;
+    left:6%;
+}
+#w4{
+    top:80%;
+    left:30%;
+}
