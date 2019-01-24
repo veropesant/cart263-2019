@@ -44,7 +44,7 @@ function draw() {
 }
 
 function update(){
-  console.log('Update!');
+
   let $spans  = $('span');
   $spans.each(updateSpan);
 }
@@ -54,7 +54,7 @@ function updateSpan(){
     $(this).removeClass('redacted');
     $(this).addClass('revealed');
   }
-  console.log('Update Span!');
+  
 }
 
 function spanClicked(){
