@@ -3,6 +3,7 @@ class Avatar extends Agent{
     super(x,y,size,'blue');
     this.maxSize=size;
     this.sizeLoss=sizeLoss;
+    this.score=0;
   }
 
   update(){
@@ -25,6 +26,7 @@ class Avatar extends Agent{
     if(this.active){
       this.size=constrain(this.size + other.size, 0, this.maxSize);
       other.reset();
+      this.score++;
     }
   }
 }
