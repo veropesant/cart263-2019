@@ -20,13 +20,13 @@ $(document).ready(function(){
 
   $kitty = $('#kitty');
 
-  intv = setInterval(walkKitty, 10);
+  intv = setInterval(walkKitty, 100);
 
 });
 
 function walkKitty(){
 
-  if($kitty.attr('src')=='assets/images/kitty1.png'){
+  if($kitty.attr('src')==='assets/images/kitty1.png'){
     $kitty.attr('src')='assets/images/kitty2.png';
   }else{
     $kitty.attr('src')='assets/images/kitty1.png';
