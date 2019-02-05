@@ -13,25 +13,22 @@ author, and this description to match your project!
 // preload()
 //
 // Description of preload
+let $kitty;
+let intv;
 
-function preload() {
+$(document).ready(function(){
 
-}
+  $kitty = $('#kitty');
 
+  intv = setInterval(walkKitty, 10);
 
-// setup()
-//
-// Description of setup
+});
 
-function setup() {
+function walkKitty(){
 
-}
-
-
-// draw()
-//
-// Description of draw()
-
-function draw() {
-
+  if($kitty.attr('src')=='assets/images/kitty1.png'){
+    $kitty.attr('src')='assets/images/kitty2.png';
+  }else{
+    $kitty.attr('src')='assets/images/kitty1.png';
+  }
 }
