@@ -38,7 +38,9 @@ let mouseActive;
 let bubbleActive;
 
 
+
 $(document).ready(function(){
+
   setTimeout(function(){
     $('#intro').animate({opacity:'1'});
   },1000);
@@ -90,7 +92,6 @@ $(function() {
      //code found on stackoverflow
        ev = e || window.event;
        key = ev.keyCode || ev.which;
-       console.log(ev.type);
        switch(key) {
         case keyboard.ENTER:
           isMoving=true;
@@ -163,11 +164,9 @@ function checkCollisions(){
     // var verticalMatch = comparePositions(pos[1], pos2[1]);
     var match = horizontalMatch;// && verticalMatch;
     if (match) {
-      console.log('collision');
       isMoving=false;
       mouseActive = mouses[i];
       bubbleActive = bubbles[i];
-      console.log(bubbleActive);
       $kitty.attr('src','assets/images/kitty-hungry.png');
       eatActive=true;
       handleWalk();
@@ -197,8 +196,8 @@ function comparePositions(p1, p2) {
 
 
 function eat(){
+  $('#bite').play();
   var mouseIdActif = mouseActive.id;
-
   $('#'+mouseIdActif).remove();
   bubbleActive.remove();
   if(mouses.length-1==0){
