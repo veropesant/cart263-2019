@@ -19,12 +19,17 @@ let intv;
 let key;
 let isMoving;
 let keyR;
+let keyboard = {
+  ENTER: 13,
+  SPACE: 32
+}
 let ev;
 let evR;
 let xCat;
 let arrMouse;
 let numMouse=5;
 let distM=200;
+
 
 $(document).ready(function(){
 
@@ -33,14 +38,23 @@ $(document).ready(function(){
   $kitty.attr('src', 'assets/images/kitty.png');
   xCat = 0;
 
+  displayMouse();
+  setTimeout(function(){
+    $parent.animate({left:'0px'},2000, 'linear');
+  },1000);
+
+
+
+});
+
+function displayMouse(){
   for(let i=0; i<numMouse; i++){
     $parent.append('<div class="mouse" id="m'+(i+1)+'"><img src="assets/images/mouse6.png"></div>');
     $('#m'+(i+1)).css('left', distM);
     distM=distM+100;
   }
 
-
-});
+}
 
 $(function() {
    $(window).keypress(function(e) {
@@ -49,11 +63,11 @@ $(function() {
        key = ev.keyCode || ev.which;
        console.log(ev.type);
        switch(key) {
-        case 13:
+        case keyboard.ENTER:
           isMoving=true;
           handleWalk();
           break;
-        case 32:
+        case keyboard.SPACE:
           eat();
           break;
         default:
@@ -65,7 +79,7 @@ $(function() {
    $(window).keyup(function(e){
      evR = e || window.event;
      keyR = evR.keyCode || evR.which;
-     console.log(keyR);
+
      if(keyR==13){
        isMoving=false;
        handleWalk();
@@ -88,13 +102,16 @@ function handleWalk(){
   }
 }
 
+//function to make the kitty walk towards the right when ENTER is pressed
+//and to animate the kitty while he walks
 function walkKitty(){
   if(isMoving==true){
     xCat = xCat+5;
   }
 
-  console.log($kitty);
-  $kitty.css('left', xCat);
+
+  $kitty.animate({left: xCat}, 'fast', 'linear', checkCollisions);
+
   if(isMoving==true){
     if($kitty.attr('src')==='assets/images/kitty1.png'){
       $kitty.attr('src','assets/images/kitty2.png');
@@ -106,6 +123,39 @@ function walkKitty(){
   }
 
 }
+
+//code found online on stackoverflow, but adapted for my situation
+function checkCollisions(){
+  var mouse = $("#m2");
+  var pos = getPositions(mouse);
+  console.log(pos);
+  var pos2 = getPositions(this);
+  console.log(pos2);
+  var horizontalMatch = comparePositions(pos[0], pos2[0]);
+  // var verticalMatch = comparePositions(pos[1], pos2[1]);
+  var match = horizontalMatch;// && verticalMatch;
+  if (match) {
+    console.log('COLLISION');
+  }
+}
+
+function getPositions(obj) {
+
+  var $obj = $(obj);
+  var pos = $obj.position();
+  var width = $obj.width();
+  var height = $obj.height();
+  return [ [ pos.left, pos.left + width ], [ pos.top, pos.top + height ] ];
+}
+
+function comparePositions(p1, p2) {
+
+  var x1 = p1[0] < p2[0] ? p1 : p2;
+  var x2 = p1[0] < p2[0] ? p2 : p1;
+  return x1[1] > x2[0] || x1[0] === x2[0] ? true : false;
+}
+//end of code found online
+
 
 function eat(){
   $kitty.attr('src', 'assets/images/kitty-eat.png');

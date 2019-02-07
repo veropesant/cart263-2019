@@ -17,6 +17,8 @@ body {
   height: 300px;
   width: 700px;
   border:2px solid black;
+  z-index: -2;
+  overflow: hidden;
 }
 
 #ground{
@@ -25,7 +27,14 @@ body {
   position: absolute;
   bottom: 0;
   background-color: #FFFFFF;
+  z-index: -1;
 
+}
+
+#parent{
+  position: absolute;
+  left:900px;
+  bottom:0;
 }
 
 .mouse{
