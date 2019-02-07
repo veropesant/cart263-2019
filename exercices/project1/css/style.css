@@ -18,6 +18,15 @@ h1{
   line-height: 40px;
   color:#DD4B87;
 }
+#bite1, #bite2, #bite3, #bite4, #bite5{
+  font-family: 'Press Start 2P', sans-serif;
+  font-size: 8px;
+  color:white;
+  position:absolute;
+  bottom:50px;
+  left:180px;
+  opacity:0;
+}
 .container{
   position: relative;
   background-color: #49B5FF;

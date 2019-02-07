@@ -16,6 +16,7 @@ author, and this description to match your project!
 let $kitty;
 let $parent;
 let bubbles;
+let bites;
 let intv;
 let key;
 let isMoving;
@@ -30,12 +31,15 @@ let xCat;
 let arrMouse;
 let numMouse=5;
 let numBubbles=5;
+let numBite=5;
 let distM=200;
 let distB=220;
+let distBite=180;
 let eatActive=false;
 let mouses;
 let mouseActive;
 let bubbleActive;
+let biteActive;
 
 
 
@@ -47,7 +51,7 @@ $(document).ready(function(){
   $kitty = $('#kitty');
   $parent = $('#parent');
   displayBubbles();
-
+  displayBiteText();
 
   //sets the start image (not moving) of the kitty
   $kitty.attr('src', 'assets/images/kitty.png');
@@ -83,6 +87,15 @@ function displayBubbles(){
     $parent.append('<div class="bubbles" id="bubble'+(i+1)+'"><img src="assets/images/bubble.png"></div>');
     $('#bubble'+(i+1)).css('left', distB);
     distB=distB+100;
+  }
+
+}
+//Displaying the bite text next to each mouse
+function displayBiteText(){
+  for(let i=0; i<numBite; i++){
+    $parent.append('<div class="bites" id="bite'+(i+1)+'">*cronch*</div>');
+    $('#bite'+(i+1)).css('left', distBite);
+    distBite=distBite+100;
   }
 
 }
@@ -157,6 +170,7 @@ function walkKitty(){
 function checkCollisions(){
   mouses = $(".mouse");
   bubbles = $(".bubbles");
+  bites = $(".bites");
   for(let i=0; i<=mouses.length-1; i++){
     var pos = getPositions(mouses[i]);
     var pos2 = getPositions(this);
@@ -167,6 +181,7 @@ function checkCollisions(){
       isMoving=false;
       mouseActive = mouses[i];
       bubbleActive = bubbles[i];
+      biteActive = bites[i];
       $kitty.attr('src','assets/images/kitty-hungry.png');
       eatActive=true;
       handleWalk();
@@ -196,9 +211,15 @@ function comparePositions(p1, p2) {
 
 
 function eat(){
-  $('#bite').play();
+  $('#bite').trigger('play');
   var mouseIdActif = mouseActive.id;
+  var biteIdActif = biteActive.id;
   $('#'+mouseIdActif).remove();
+  $('#'+biteIdActif).animate({bottom:'80px'}, 'slow', 'swing');
+  $('#'+biteIdActif).animate({opacity:'1'}, 'slow', 'swing');
+  setTimeout(function(){
+    $('#'+biteIdActif).remove();
+  },1500);
   bubbleActive.remove();
   if(mouses.length-1==0){
       distM=200;
@@ -207,6 +228,7 @@ function eat(){
       $kitty.animate({left: '0'}, 2000, 'swing');
       displayMouse();
       displayBubbles();
+      displayBiteText();
       $parent.css('left', '900px');
       $parent.animate({left: '0'}, 2000, 'swing');
       xCat=0;
