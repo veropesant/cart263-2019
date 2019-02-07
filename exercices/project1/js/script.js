@@ -14,6 +14,7 @@ author, and this description to match your project!
 //
 // Description of preload
 let $kitty;
+let $parent;
 let intv;
 let key;
 let isMoving;
@@ -21,12 +22,22 @@ let keyR;
 let ev;
 let evR;
 let xCat;
+let arrMouse;
+let numMouse=5;
+let distM=200;
 
 $(document).ready(function(){
 
   $kitty = $('#kitty');
+  $parent = $('#parent');
   $kitty.attr('src', 'assets/images/kitty.png');
   xCat = 0;
+
+  for(let i=0; i<numMouse; i++){
+    $parent.append('<div class="mouse" id="m'+(i+1)+'"><img src="assets/images/mouse6.png"></div>');
+    $('#m'+(i+1)).css('left', distM);
+    distM=distM+100;
+  }
 
 
 });
@@ -43,7 +54,7 @@ $(function() {
           handleWalk();
           break;
         case 32:
-          console.log('eat');
+          eat();
           break;
         default:
           console.log('default');
@@ -94,4 +105,12 @@ function walkKitty(){
     $kitty.attr('src', 'assets/images/kitty.png');
   }
 
+}
+
+function eat(){
+  $kitty.attr('src', 'assets/images/kitty-eat.png');
+
+  setTimeout(function(){
+    $kitty.attr('src', 'assets/images/kitty.png');
+  },500);
 }

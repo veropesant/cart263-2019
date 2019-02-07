@@ -16,6 +16,7 @@ body {
   background-color: #49B5FF;
   height: 300px;
   width: 700px;
+  border:2px solid black;
 }
 
 #ground{
@@ -23,8 +24,15 @@ body {
   width: 700px;
   position: absolute;
   bottom: 0;
-  background-color: #F2F2F2;
+  background-color: #FFFFFF;
+
 }
+
+.mouse{
+  position: absolute;
+  bottom: 10px;
+}
+
 #kitty{
   z-index: 10;
   position: absolute;
