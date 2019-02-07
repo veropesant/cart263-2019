@@ -93,10 +93,13 @@ $(function() {
 });
 
 function handleWalk(){
-  if(!eatActive){
-    if(!intv){
-      intv = setInterval(walkKitty, 200);
+  if(isMoving==true){
+    if(!eatActive){
+      if(!intv){
+        intv = setInterval(walkKitty, 200);
+      }
     }
+
   }
   else{
     clearInterval(intv);
