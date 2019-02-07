@@ -29,6 +29,9 @@ let xCat;
 let arrMouse;
 let numMouse=5;
 let distM=200;
+let eatActive=false;
+let mouses;
+let mouseActive;
 
 
 $(document).ready(function(){
@@ -68,7 +71,9 @@ $(function() {
           handleWalk();
           break;
         case keyboard.SPACE:
-          eat();
+          if(eatActive){
+            eat();
+          }
           break;
         default:
           console.log('default');
@@ -126,17 +131,21 @@ function walkKitty(){
 
 //code found online on stackoverflow, but adapted for my situation
 function checkCollisions(){
-  var mouse = $("#m2");
-  var pos = getPositions(mouse);
-  console.log(pos);
-  var pos2 = getPositions(this);
-  console.log(pos2);
-  var horizontalMatch = comparePositions(pos[0], pos2[0]);
-  // var verticalMatch = comparePositions(pos[1], pos2[1]);
-  var match = horizontalMatch;// && verticalMatch;
-  if (match) {
-    console.log('COLLISION');
+  mouses = $(".mouse");
+  for(let i=0; i<=mouses.length-1; i++){
+    var pos = getPositions(mouses[i]);
+    var pos2 = getPositions(this);
+    var horizontalMatch = comparePositions(pos[0], pos2[0]);
+    // var verticalMatch = comparePositions(pos[1], pos2[1]);
+    var match = horizontalMatch;// && verticalMatch;
+    if (match) {
+      console.log('collision');
+      mouseActive = mouses[i];
+      console.log(mouseActive);
+      eatActive=true;
+    }
   }
+
 }
 
 function getPositions(obj) {
@@ -158,9 +167,21 @@ function comparePositions(p1, p2) {
 
 
 function eat(){
+  var mouseIdActif = mouseActive.id;
+  $('#'+mouseIdActif).remove();
+  if(mouses.length-1==0){
+    $parent.css('left', '900px');
+    setTimeout(function(){
+      $kitty.animate({left: '0'}, 2000, 'swing');
+      displayMouse();
+      $parent.animate({left:'0px'},2000, 'swing');
+      xCat=0;
+    },800);
+  }
   $kitty.attr('src', 'assets/images/kitty-eat.png');
 
   setTimeout(function(){
     $kitty.attr('src', 'assets/images/kitty.png');
+    eatActive=false;
   },500);
 }
