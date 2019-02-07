@@ -43,7 +43,7 @@ $(document).ready(function(){
 
   displayMouse();
   setTimeout(function(){
-    $parent.animate({left:'0px'},2000, 'linear');
+    $parent.animate({left:'0px'},2000, 'swing');
   },1000);
 
 
@@ -170,13 +170,14 @@ function eat(){
   var mouseIdActif = mouseActive.id;
   $('#'+mouseIdActif).remove();
   if(mouses.length-1==0){
-    $parent.css('left', '900px');
+      distM=200;
     setTimeout(function(){
       $kitty.animate({left: '0'}, 2000, 'swing');
       displayMouse();
-      $parent.animate({left:'0px'},2000, 'swing');
+      $parent.css('left', '900px');
+      $parent.animate({left: '0'}, 2000, 'swing');
       xCat=0;
-    },800);
+    },1000);
   }
   $kitty.attr('src', 'assets/images/kitty-eat.png');
 
