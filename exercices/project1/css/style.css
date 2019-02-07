@@ -10,7 +10,14 @@ body {
   padding: 0;
   margin: 0;
 }
-
+h1{
+  font-family: 'Press Start 2P', sans-serif;
+  font-size: 18px;
+  margin:5%;
+  opacity: 0;
+  line-height: 40px;
+  color:#DD4B87;
+}
 .container{
   position: relative;
   background-color: #49B5FF;
@@ -36,7 +43,14 @@ body {
   left:900px;
   bottom:0;
 }
-
+.bubbles{
+  position: absolute;
+  bottom:50px;
+  left:220px;
+}
+#bubble1, #bubble2, #bubble3, #bubble4, #bubble5{
+  opacity: 0;
+}
 .mouse{
   position: absolute;
   bottom: 10px;

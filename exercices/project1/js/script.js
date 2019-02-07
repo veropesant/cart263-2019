@@ -15,6 +15,7 @@ author, and this description to match your project!
 // Description of preload
 let $kitty;
 let $parent;
+let bubbles;
 let intv;
 let key;
 let isMoving;
@@ -28,28 +29,44 @@ let evR;
 let xCat;
 let arrMouse;
 let numMouse=5;
+let numBubbles=5;
 let distM=200;
+let distB=220;
 let eatActive=false;
 let mouses;
 let mouseActive;
+let bubbleActive;
 
 
 $(document).ready(function(){
-
+  setTimeout(function(){
+    $('#intro').animate({opacity:'1'});
+  },1000);
   $kitty = $('#kitty');
   $parent = $('#parent');
+  displayBubbles();
+
+
+  //sets the start image (not moving) of the kitty
   $kitty.attr('src', 'assets/images/kitty.png');
   xCat = 0;
-
+  //display the mouses but don't show them
   displayMouse();
   setTimeout(function(){
+    //bring in the mouses after 1 sec
     $parent.animate({left:'0px'},2000, 'swing');
   },1000);
+
+  //make the explanations dissapear after 5 seconds
+  setTimeout(function(){
+    $('#intro').fadeOut();
+  },8000);
 
 
 
 });
 
+//Displaying the mouse at a certain distance from each other
 function displayMouse(){
   for(let i=0; i<numMouse; i++){
     $parent.append('<div class="mouse" id="m'+(i+1)+'"><img src="assets/images/mouse6.png"></div>');
@@ -58,7 +75,16 @@ function displayMouse(){
   }
 
 }
+//Displaying the bubbles above each mouse
+function displayBubbles(){
+  for(let i=0; i<numBubbles; i++){
+    $parent.append('<div class="bubbles" id="bubble'+(i+1)+'"><img src="assets/images/bubble.png"></div>');
+    $('#bubble'+(i+1)).css('left', distB);
+    distB=distB+100;
+  }
 
+}
+//Function to check constantly the keys pressed on the keyboard
 $(function() {
    $(window).keypress(function(e) {
      //code found on stackoverflow
@@ -105,8 +131,11 @@ function handleWalk(){
     clearInterval(intv);
     intv = null;
     $kitty.attr('src', 'assets/images/kitty.png');
+    var idBubbleActif = bubbleActive.id;
+    $('#'+idBubbleActif).animate({opacity:'1'});
   }
 }
+
 
 //function to make the kitty walk towards the right when ENTER is pressed
 //and to animate the kitty while he walks
@@ -126,6 +155,7 @@ function walkKitty(){
 //code found online on stackoverflow, but adapted for my situation
 function checkCollisions(){
   mouses = $(".mouse");
+  bubbles = $(".bubbles");
   for(let i=0; i<=mouses.length-1; i++){
     var pos = getPositions(mouses[i]);
     var pos2 = getPositions(this);
@@ -136,8 +166,11 @@ function checkCollisions(){
       console.log('collision');
       isMoving=false;
       mouseActive = mouses[i];
+      bubbleActive = bubbles[i];
+      console.log(bubbleActive);
       $kitty.attr('src','assets/images/kitty-hungry.png');
       eatActive=true;
+      handleWalk();
     }else{
       isMoving=true;
     }
@@ -165,12 +198,16 @@ function comparePositions(p1, p2) {
 
 function eat(){
   var mouseIdActif = mouseActive.id;
+
   $('#'+mouseIdActif).remove();
+  bubbleActive.remove();
   if(mouses.length-1==0){
       distM=200;
+      distB=220;
     setTimeout(function(){
       $kitty.animate({left: '0'}, 2000, 'swing');
       displayMouse();
+      displayBubbles();
       $parent.css('left', '900px');
       $parent.animate({left: '0'}, 2000, 'swing');
       xCat=0;
