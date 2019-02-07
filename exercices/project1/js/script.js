@@ -93,39 +93,30 @@ $(function() {
 });
 
 function handleWalk(){
-  if(isMoving==true){
+  if(!eatActive){
     if(!intv){
       intv = setInterval(walkKitty, 200);
-
     }
   }
   else{
     clearInterval(intv);
     intv = null;
-    walkKitty();
-
+    $kitty.attr('src', 'assets/images/kitty.png');
   }
 }
 
 //function to make the kitty walk towards the right when ENTER is pressed
 //and to animate the kitty while he walks
 function walkKitty(){
-  if(isMoving==true){
+
     xCat = xCat+5;
-  }
-
-
-  $kitty.animate({left: xCat}, 'fast', 'linear', checkCollisions);
-
-  if(isMoving==true){
+    $kitty.animate({left: xCat}, 'fast', 'linear', checkCollisions);
     if($kitty.attr('src')==='assets/images/kitty1.png'){
       $kitty.attr('src','assets/images/kitty2.png');
     }else{
       $kitty.attr('src','assets/images/kitty1.png');
     }
-  }else{
-    $kitty.attr('src', 'assets/images/kitty.png');
-  }
+
 
 }
 
@@ -140,9 +131,12 @@ function checkCollisions(){
     var match = horizontalMatch;// && verticalMatch;
     if (match) {
       console.log('collision');
+      isMoving=false;
       mouseActive = mouses[i];
-      console.log(mouseActive);
+      $kitty.attr('src','assets/images/kitty-hungry.png');
       eatActive=true;
+    }else{
+      isMoving=true;
     }
   }
 
