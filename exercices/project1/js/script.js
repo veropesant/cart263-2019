@@ -188,8 +188,11 @@ $(function() {
         default:
           console.log('default');
       }
-
+      //increments the number of keys pressed
       numKeyPressed+=1;
+      //checks if the player pressed a key (any key)
+      //and starts the theme song if they did.
+      //The song will loop afterwards
       if(numKeyPressed==1){
         $('#song').trigger('play');
       }
