@@ -15,6 +15,7 @@ author, and this description to match your project!
 // Description of preload
 let $kitty;
 let $parent;
+let $intro;
 let bubbles;
 let bites;
 let intv;
@@ -40,13 +41,14 @@ let mouses;
 let mouseActive;
 let bubbleActive;
 let biteActive;
+let numTimesPlayed=0;
 
 
 
 $(document).ready(function(){
-
+  $intro = $('#intro');
   setTimeout(function(){
-    $('#intro').animate({opacity:'1'});
+    $intro.animate({opacity:'1'});
   },1000);
   $kitty = $('#kitty');
   $parent = $('#parent');
@@ -65,13 +67,13 @@ $(document).ready(function(){
 
   //make the explanations dissapear after 5 seconds
   setTimeout(function(){
-    $('#intro').fadeOut();
+    $intro.fadeOut();
   },8000);
 
 
 
 });
-
+//DISPLAY FUNCTIONS
 //Displaying the mouse at a certain distance from each other
 function displayMouse(){
   for(let i=0; i<numMouse; i++){
@@ -93,12 +95,56 @@ function displayBubbles(){
 //Displaying the bite text next to each mouse
 function displayBiteText(){
   for(let i=0; i<numBite; i++){
-    $parent.append('<div class="bites" id="bite'+(i+1)+'">*cronch*</div>');
+    $parent.append('<div class="bites" id="bite'+(i+1)+'">YUM YUM</div>');
     $('#bite'+(i+1)).css('left', distBite);
     distBite=distBite+100;
   }
 
 }
+//Function to display text depending on the number of times the level
+//has been completed
+function displayText(){
+  var firstTime = 'You thought it was over huh? Think again kitty...EAT!';
+  var secondTime = 'No, no! Eat again! You\'re not done!';
+  var thirdTime = 'Nope! Not done yet. Eat!';
+  var fourthMoreTime = 'EAT! EAT! EAT!';
+  switch(numTimesPlayed) {
+   case 1:
+     $intro.html(firstTime);
+     $intro.fadeIn();
+     setTimeout(function(){
+       $intro.fadeOut();
+       firstTime='';
+     },5000);
+     break;
+   case 2:
+     $intro.html(secondTime);
+     $intro.fadeIn();
+     setTimeout(function(){
+       $intro.fadeOut();
+       secondTime='';
+     },5000);
+     break;
+     case 3:
+       $intro.html(thirdTime);
+       $intro.fadeIn();
+       setTimeout(function(){
+         $intro.fadeOut();
+         thirdTime='';
+       },5000);
+       break;
+   default:
+     console.log('default');
+ }
+ if(numTimesPlayed>=4){
+   $intro.html(fourthMoreTime);
+   $intro.fadeIn();
+   setTimeout(function(){
+     $intro.fadeOut();
+   },5000);
+ }
+}
+
 //Function to check constantly the keys pressed on the keyboard
 $(function() {
    $(window).keypress(function(e) {
@@ -145,8 +191,10 @@ function handleWalk(){
     clearInterval(intv);
     intv = null;
     $kitty.attr('src', 'assets/images/kitty.png');
-    var idBubbleActif = bubbleActive.id;
-    $('#'+idBubbleActif).animate({opacity:'1'});
+    if(bubbleActive){
+      var idBubbleActif = bubbleActive.id;
+      $('#'+idBubbleActif).animate({opacity:'1'});
+    }
   }
 }
 
@@ -215,20 +263,24 @@ function eat(){
   var mouseIdActif = mouseActive.id;
   var biteIdActif = biteActive.id;
   $('#'+mouseIdActif).remove();
-  $('#'+biteIdActif).animate({bottom:'80px'}, 'slow', 'swing');
-  $('#'+biteIdActif).animate({opacity:'1'}, 'slow', 'swing');
+  $('#'+biteIdActif).animate({opacity:'1'}, 'fast', 'swing');
   setTimeout(function(){
     $('#'+biteIdActif).remove();
   },1500);
   bubbleActive.remove();
+  bubbleActive=null;
   if(mouses.length-1==0){
+      numTimesPlayed+=1;
+      biteActive=null;
       distM=200;
       distB=220;
+      distBite=180;
     setTimeout(function(){
       $kitty.animate({left: '0'}, 2000, 'swing');
       displayMouse();
       displayBubbles();
       displayBiteText();
+      displayText();
       $parent.css('left', '900px');
       $parent.animate({left: '0'}, 2000, 'swing');
       xCat=0;
