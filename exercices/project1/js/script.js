@@ -320,6 +320,7 @@ function comparePositions(p1, p2) {
 
 //function that handles what the kitty eats
 function eat(){
+  //activates the chewing sound
   $('#bite').trigger('play');
   //targets the ids of the active mouse and text
   var mouseIdActif = mouseActive.id;
@@ -331,14 +332,19 @@ function eat(){
   //after 1.5 sec, makes the text slowly disappear
   setTimeout(function(){
     $('#'+biteIdActif).remove();
-  },1500);
+  },1000);
   //removes the bubbles and empties its variable
   bubbleActive.remove();
   bubbleActive=null;
   biteActive=null;
   //when the cat ate all the mouses, reset the game
   if(mouses.length-1==0){
-    reset();
+    //used this timeout to prevent the last 'yum yum' to appear
+    //at X zero like he used to do, because the position was reset too early
+    setTimeout(function(){
+      reset();
+    },1000);
+
   }
   //eating animation
   $kitty.attr('src', 'assets/images/kitty-eat.png');
@@ -364,10 +370,10 @@ function reset(){
       displayBubbles();
       displayBiteText();
       displayText();
-      //animation the mouses
+      //animation to slide in the mouses
       $parent.css('left', '900px');
       $parent.animate({left: '0'}, 2000, 'swing');
       //resets initial position of cat
       xCat=0;
-    },1000);
+    },500);
 }
