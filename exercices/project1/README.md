@@ -1,4 +1,4 @@
-#CREATIVE IDEAS
+# CREATIVE IDEAS
 
 For this project, I chose a rather simple idea, which is that
 of the cat and the mouse. This little game is based on the myth
