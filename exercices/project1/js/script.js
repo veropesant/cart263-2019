@@ -5,9 +5,9 @@
 The infinite eating of the mouse
 Véronique Pesant
 
-This is a little game based on the myth of sysiphus
-who was condamned to push a bolder up a hill indefinitely.
-In this game, much like sysiphus, the kitty is condamned
+This is a little game based on the myth of sisyphus
+who was sentenced to push a bolder up a hill indefinitely.
+In this game, much like sisyphus, the kitty is sentenced
 to eat mouses 'til the end of times.
 
 ******************/
