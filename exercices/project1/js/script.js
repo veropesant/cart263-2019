@@ -52,6 +52,7 @@ let numTimesPlayed=0;
 //function to execute certain commands as soon
 //as the document is loaded
 $(document).ready(function(){
+  $('#song').trigger('play');
   $intro = $('#intro');
   setTimeout(function(){
     $intro.animate({opacity:'1'});

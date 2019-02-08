@@ -44,6 +44,11 @@ it was pretty easy to do, but I had never done it with only
 jQuery. Luckily, I found a solution pretty fast on StackOverflow
 and it didn't take too long to adapt to my situation.
 
+For the music, I chose the wii theme song, simply because I thought
+was the perfect 'non-emotional', infinite song to represent the
+heaviness of the life sentence the cat got. And I also added a
+little chewing sound when he eats the mouses.
+
 Overall, I'm pretty satisfied with my final project. I managed to
 solve all my problems, and when I uploaded the final version,
 everything was working perfectly. If I had to change anything though,
