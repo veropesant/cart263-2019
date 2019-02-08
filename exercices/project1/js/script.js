@@ -47,12 +47,12 @@ let numMouse=5;
 let numBubbles=5;
 let numBite=5;
 let numTimesPlayed=0;
+let numKeyPressed=0;
 
 
 //function to execute certain commands as soon
 //as the document is loaded
 $(document).ready(function(){
-  $('#song').trigger('play');
   $intro = $('#intro');
   setTimeout(function(){
     $intro.animate({opacity:'1'});
@@ -150,8 +150,6 @@ function displayText(){
          thirdTime='';
        },5000);
        break;
-   default:
-     console.log('default');
  }
  //If the player ate all the mouses 4 times or more, the text stays the same
  if(numTimesPlayed>=4){
@@ -189,6 +187,11 @@ $(function() {
           break;
         default:
           console.log('default');
+      }
+
+      numKeyPressed+=1;
+      if(numKeyPressed==1){
+        $('#song').trigger('play');
       }
 
    });
