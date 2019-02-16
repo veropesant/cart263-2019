@@ -8,15 +8,27 @@ author, and this description to match your project!
 ******************/
 let $mouth;
 let $fly;
+let $macaron;
 let interval;
+let $cough;
 
 $(document).ready(function(){
   console.log('Ready!');
   $mouth = $('#mouth');
   $fly = $('#fly');
+  $macaron = $('#macaron');
+  $cough = $('#cough');
 
   $('.dragable').draggable();
+  $macaron.draggable({revert:'invalid'});
   $mouth.droppable({
+    accept: function(item) {
+      if(item.attr("id")!="fly"){
+          $cough.trigger('play');
+      }else{
+        return true;
+      }
+    },
     drop: function(event, ui){
       ui.draggable.fadeOut();
       interval = setInterval(mouthChew,10);
