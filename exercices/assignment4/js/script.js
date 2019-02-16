@@ -20,13 +20,13 @@ $(document).ready(function(){
   $cough = $('#cough');
 
   $('.dragable').draggable();
-  $macaron.draggable({revert:'invalid'});
+  $macaron.draggable({revert:'invalid'}); //puts the macaron back in place
   $mouth.droppable({
     accept: function(item) {
       if(item.attr("id")!="fly"){
-          $cough.trigger('play');
+          $cough.trigger('play');//trigered when the food is not a fly
       }else{
-        return true;
+        return true;//allows the drop function to be executed
       }
     },
     drop: function(event, ui){
