@@ -31,7 +31,7 @@ $(document).ready(function(){
     },
     drop: function(event, ui){
       ui.draggable.fadeOut();
-      interval = setInterval(mouthChew,10);
+      interval = setInterval(mouthChew,100);
       setTimeout(function(){
         clearInterval(interval);
         ui.draggable.css('position', 'absolute');
