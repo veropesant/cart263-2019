@@ -1,0 +1,17 @@
+/*********************************************
+
+This is the style file for this project.
+
+**********************************************/
+#macaron{
+  width: 200px;
+  position: absolute;
+  top: 32%;
+  left: 45%;
+}
+
+#fly{
+  position: absolute;
+  top: 30%;
+  left: 30%;
+}
