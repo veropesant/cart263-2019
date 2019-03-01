@@ -161,8 +161,13 @@ $(document).ready(function(){
     // Let's define our first command. First the text we expect, and then the function it should call
     let commands = {
       'I give up': function() {
-        $('.guess').remove();
-        newRound();
+        let idAnimal = answers.indexOf(correctAnimal);
+        $('#'+idAnimal).effect('shake');
+        setTimeout(function(){
+          $('.guess').remove();
+          newRound();
+        },2000);
+
       },
       'Say it again':function(){
         speakAnimal(correctAnimal);
@@ -192,8 +197,8 @@ function startGame(){
   newRound();
 }
 
-function addButton(label){
-  let $guess = $("<div class='guess'></div>");
+function addButton(label, id){
+  let $guess = $("<div class='guess' id='"+id+"'></div>");
   $guess.html(label);
   $guess.button();
   $guess.on('click', function(){
@@ -213,7 +218,7 @@ function newRound(){
   answers = [];
   for(i=0; i <= NUM_OPTIONS; i++){
     let animal = animals[Math.floor(Math.random()*animals.length)];
-    addButton(animal);
+    addButton(animal, i);
     answers.push(animal);
   }
   correctAnimal = answers[Math.floor(Math.random()*answers.length)];
