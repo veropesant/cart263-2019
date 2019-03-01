@@ -154,7 +154,7 @@ let options={
 };
 
 $(document).ready(function(){
-  $('#score').html("THE WORD TO GUESS IS PRONOUNCED BACKWARDS<br>Click on the right answer or say I THINK IT'S followed by your guess<br>Say SAY IT AGAIN to repeat the word to guess<br>Say I GIVE UP if you can't find the word");
+  $('#score').html("THE WORD TO GUESS IS PRONOUNCED BACKWARDS<br><br>Click on the right answer or say I THINK IT'S followed by your guess<br>Say SAY IT AGAIN to repeat the word to guess<br>Say I GIVE UP if you can't find the word");
   $('#click-here').on('click', function(){
     this.remove();
     displayScore();
