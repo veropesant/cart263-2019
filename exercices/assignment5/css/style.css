@@ -7,3 +7,9 @@ This is the style file for this project.
 #click-here{
   cursor: pointer;
 }
+
+#score{
+  position: absolute;
+  top:25%;
+  left:1%;
+}
