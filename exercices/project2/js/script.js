@@ -57,7 +57,8 @@ $(document).ready(function(){
   if (annyang) {
     // Let's define our first command. First the text we expect, and then the function it should call
     var commands = {
-      'jump': function() {
+      //when you say fuck, the dino can jump
+      'fuck': function() {
         jump();
       }
     };
@@ -159,13 +160,13 @@ function update ()
   cursors = this.input.keyboard.createCursorKeys();
   if (cursors.left.isDown)
   {
-      player.setVelocityX(-160);
+      player.setVelocityX(-60);
 
       player.anims.play('left', true);
   }
   else if (cursors.right.isDown)
   {
-      player.setVelocityX(160);
+      player.setVelocityX(60);
 
       player.anims.play('right', true);
   }
