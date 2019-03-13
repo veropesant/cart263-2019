@@ -61,7 +61,7 @@ $(document).ready(function(){
       'die': function() {
         jump();
       },
-      'bastard': function(){
+      'damn': function(){
         jump();
       },
       'jump': function(){
