@@ -102,6 +102,7 @@ function create ()
   scoreText = this.add.text(16, 16, 'SCORE: 0', { fontSize: '30px', fill: '#fff', fontFamily:'VT323'});
 
 
+
   //PLATFORMS
   platforms = this.physics.add.staticGroup();
 
@@ -122,6 +123,9 @@ function create ()
 
   player.setBounce(0.2);
   player.setCollideWorldBounds(true);
+
+
+
 
   this.anims.create({
       key: 'left',
@@ -152,12 +156,23 @@ function create ()
 
   food.children.iterate(function (child) {
 
-      child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
+      child.setBounceY(Phaser.Math.FloatBetween(0.2, 0.4));
+
 
   });
   this.physics.add.overlap(player, food, collectFood, null, this);
   this.physics.add.collider(food, platforms);
   this.physics.add.collider(player, platforms);
+
+}
+
+//function to calculate distance between chicken and dino
+function distance(x1, y1, x2, y2) {
+        console.log('distance');
+        var dx = x1 - x2;
+        var dy = y1 - y2;
+
+        return Math.sqrt(dx * dx + dy * dy);
 
 }
 
@@ -182,15 +197,28 @@ function update ()
 
       player.anims.play('turn');
   }
+  if (cursors.up.isDown && player.body.touching.down)
+  {
+      player.setVelocityY(-330);
+  }
 
+  food.children.iterate(function (child) {
+
+      if(distance(this.player.x, this.player.y, child.x, child.y) <= 100){
+        console.log('CLOSE');
+      }
+
+
+  });
 
 
 
 }
 
-function collectFood (player, star)
+function collectFood (player, food)
 {
-    star.disableBody(true, true);
+    //food.disableBody(true, true);
+    food.destroy();
     score += 10;
     scoreText.setText('SCORE: ' + score);
 }
