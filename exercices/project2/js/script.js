@@ -61,7 +61,7 @@ $(document).ready(function(){
       'fuck': function() {
         jump();
       },
-      'shit': function(){
+      'bastard': function(){
         jump();
       },
       'jump': function(){
