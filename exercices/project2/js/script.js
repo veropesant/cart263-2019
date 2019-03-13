@@ -57,8 +57,8 @@ $(document).ready(function(){
   if (annyang) {
     // Let's define our first command. First the text we expect, and then the function it should call
     var commands = {
-      'hello': function() {
-        console.log('fuck');
+      'jump': function() {
+        jump();
       }
     };
 
@@ -176,10 +176,7 @@ function update ()
       player.anims.play('turn');
   }
 
-  if (cursors.up.isDown && player.body.touching.down)
-  {
-      player.setVelocityY(-300);
-  }
+
 
 
 }
@@ -189,4 +186,11 @@ function collectFood (player, star)
     star.disableBody(true, true);
     score += 10;
     scoreText.setText('SCORE: ' + score);
+}
+
+function jump(){
+  if (player.body.touching.down)
+  {
+      player.setVelocityY(-300);
+  }
 }
