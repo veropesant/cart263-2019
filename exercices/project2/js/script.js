@@ -72,6 +72,9 @@ $(document).ready(function(){
       },
       'You suck': function(){
         jump();
+      },
+      'Shitty': function(){
+        jump();
       }
     };
 
