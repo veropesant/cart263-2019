@@ -25,19 +25,19 @@ var config = {
     }
 };
 
-// WebFontConfig = {
-//
-//     //  'active' means all requested fonts have finished loading
-//     //  We set a 1 second delay before calling 'createText'.
-//     //  For some reason if we don't the browser cannot render the text the first time it's created.
-//     active: function() { this.time.events.add(Phaser.Timer.SECOND*2, createText, this); },
-//
-//     //  The Google Fonts we want to load (specify as many as you like in the array)
-//     google: {
-//       families: ['VT323']
-//     }
-//
-// };
+WebFontConfig = {
+
+    //  'active' means all requested fonts have finished loading
+    //  We set a 1 second delay before calling 'createText'.
+    //  For some reason if we don't the browser cannot render the text the first time it's created.
+    active: function() { this.time.events.add(Phaser.Timer.SECOND*2, createText, this); },
+
+    //  The Google Fonts we want to load (specify as many as you like in the array)
+    google: {
+      families: ['VT323']
+    }
+
+};
 var dino;
 var player;
 var allPlatforms;
@@ -49,7 +49,7 @@ var vSmallPlatform;
 var ground;
 var score = 0;
 var scoreText;
-var text;
+var textChicken;
 var game = new Phaser.Game(config);
 
 $(document).ready(function(){
@@ -71,9 +71,6 @@ $(document).ready(function(){
         jump();
       },
       'You suck': function(){
-        jump();
-      },
-      'Shitty': function(){
         jump();
       }
     };
@@ -110,6 +107,8 @@ function create ()
   //SCORE
   scoreText = this.add.text(16, 16, 'SCORE: 0', { fontSize: '30px', fill: '#fff', fontFamily:'VT323'});
 
+  //CHICKEN TEXT
+  textChicken = this.add.text(-200, -200, 'FUCK OFF!', { fontSize: '18px', fill: '#000', fontFamily:'VT323'});
 
 
   //PLATFORMS
@@ -215,8 +214,9 @@ function update ()
 
       if(distance(this.player.x, this.player.y, child.x, child.y) <= 100){
         console.log('CLOSE');
+        textChicken.x = child.x+child.width/2;
+        textChicken.y = child.y-child.height/2;
       }
-
 
   });
 
@@ -230,6 +230,7 @@ function collectFood (player, food)
     food.destroy();
     score += 10;
     scoreText.setText('SCORE: ' + score);
+    textChicken.x = -200;
 }
 
 function jump(){
