@@ -189,6 +189,7 @@ function collectFood (player, star)
 }
 
 function jump(){
+  console.log('jump');
   if (player.body.touching.down)
   {
       player.setVelocityY(-300);
