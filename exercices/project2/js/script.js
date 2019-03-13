@@ -64,7 +64,7 @@ $(document).ready(function(){
       'damn': function(){
         jump();
       },
-      'jump': function(){
+      'bullshit': function(){
         jump();
       }
     };
