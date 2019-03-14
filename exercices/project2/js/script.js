@@ -51,6 +51,7 @@ var ground;
 var score = 0;
 var scoreText;
 var textChicken;
+var chickenSpeakCount=0;
 var game = new Phaser.Game(config);
 
 $(document).ready(function(){
@@ -131,8 +132,6 @@ function create ()
   player.setCollideWorldBounds(true);
 
 
-
-
   this.anims.create({
       key: 'left',
       frames: this.anims.generateFrameNumbers('dino', { start: 0, end: 1 }),
@@ -149,6 +148,13 @@ function create ()
   this.anims.create({
       key: 'right',
       frames: this.anims.generateFrameNumbers('dino', { start: 3, end: 4 }),
+      frameRate: 10,
+      repeat: -1
+  });
+
+  this.anims.create({
+      key: 'eat',
+      frames: this.anims.generateFrameNumbers('dino', { start: 5, end: 6 }),
       frameRate: 10,
       repeat: -1
   });
@@ -213,7 +219,8 @@ function update ()
       if(distance(this.player.x, this.player.y, child.x, child.y) <= 100){
         textChicken.x = child.x+child.width/2;
         textChicken.y = child.y-child.height/2;
-        if(!responsiveVoice.isPlaying()) {
+        if(!responsiveVoice.isPlaying() && chickenSpeakCount < 1) {
+          chickenSpeakCount = chickenSpeakCount +1;
           responsiveVoice.speak("FUCK OFF, you monster!", "US English Female", {pitch: 2}, {rate: 50});
         }
       }
@@ -235,6 +242,8 @@ function collectFood (player, food)
 
     if(eat){
       eat=false;
+      player.anims.play('eat');
+      chickenSpeakCount=0;
       food.destroy();
       score += 10;
       scoreText.setText('SCORE: ' + score);
