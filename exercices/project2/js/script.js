@@ -155,7 +155,7 @@ function create ()
   this.anims.create({
       key: 'eat',
       frames: this.anims.generateFrameNumbers('dino', { start: 5, end: 6 }),
-      frameRate: 10,
+      frameRate: 2,
       repeat: -1
   });
 
