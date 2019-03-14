@@ -58,9 +58,6 @@ $(document).ready(function(){
     // Let's define our first command. First the text we expect, and then the function it should call
     var commands = {
       //when you say fuck, the dino can jump
-      'Die': function() {
-        jump();
-      },
       'Damn': function(){
         jump();
       },
