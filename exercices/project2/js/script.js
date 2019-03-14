@@ -94,6 +94,10 @@ function preload ()
       'assets/images/dino2.png',
       { frameWidth: 63, frameHeight: 50 }
   );
+  this.load.spritesheet('dino-eat',
+      'assets/images/eating-eat.png',
+      { frameWidth: 63, frameHeight: 50 }
+  );
   //  Load the Google WebFont Loader script
   this.load.script('webfont', '//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js');
 }
@@ -154,7 +158,7 @@ function create ()
 
   this.anims.create({
       key: 'eat',
-      frames: this.anims.generateFrameNumbers('dino', { start: 5, end: 6 }),
+      frames: this.anims.generateFrameNumbers('dino-eat', { start: 1, end: 2 }),
       frameRate: 10,
       repeat: -1
   });
