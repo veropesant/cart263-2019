@@ -168,7 +168,7 @@ function create ()
 
 
   });
-  this.physics.add.overlap(player, food, collectFood, null, this);
+  this.physics.add.overlap(player, food, allowEat, null, this);
   this.physics.add.collider(food, platforms);
   this.physics.add.collider(player, platforms);
 
@@ -226,6 +226,10 @@ function update ()
 
 }
 
+function allowEat(){
+  var commands = {'Die': collectFood};
+  annyang.addCommands(commands);
+}
 function collectFood (player, food)
 {
     //food.disableBody(true, true);
