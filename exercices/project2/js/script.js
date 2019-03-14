@@ -39,6 +39,7 @@ WebFontConfig = {
 
 };
 var dino;
+var dino-eat;
 var eat=false;
 var player;
 var allPlatforms;
