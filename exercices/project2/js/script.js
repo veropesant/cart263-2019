@@ -44,6 +44,8 @@ var player;
 var allPlatforms;
 var food;
 var chicken;
+var bombs;
+var bombActive=true;
 var deadChicken;
 var platform;
 var smallPlatform;
@@ -84,11 +86,12 @@ function preload ()
   this.load.image('smallPlatform', 'assets/images/small-platform.png');
   this.load.image('vSmallPlatform', 'assets/images/v-small-platform.png');
   this.load.image('ground', 'assets/images/ground.png');
+  this.load.image('bomb', 'assets/images/bomb.png');
   // this.load.image('chicken', 'assets/images/chicken.png');
   // this.load.image('dead-chicken', 'assets/images/dead-chicken.png');
   this.load.spritesheet('dino',
       'assets/images/dino4.png',
-      { frameWidth: 72, frameHeight: 50 }
+      { frameWidth: 73, frameHeight: 50 }
   );
   this.load.spritesheet('eating',
       'assets/images/eating.png',
@@ -108,7 +111,7 @@ function create ()
   this.add.image(400, 300, 'sky');
 
   //SCORE
-  scoreText = this.add.text(16, 16, 'SCORE: 0', { fontSize: '30px', fill: '#fff', fontFamily:'VT323'});
+  scoreText = this.add.text(16, 16, 'SCORE: '+score, { fontSize: '30px', fill: '#fff', fontFamily:'VT323'});
 
   //CHICKEN TEXT
   textChicken = this.add.text(-200, -200, 'FUCK OFF!', { fontSize: '18px', fill: '#000', fontFamily:'VT323'});
@@ -120,11 +123,9 @@ function create ()
   platforms.create(400, 590, 'ground').setScale(1.08).refreshBody();
 
   platforms.create(600, 400, 'platform');
-
   platforms.create(60, 250, 'smallPlatform');
   platforms.create(330, 500, 'smallPlatform');
   platforms.create(600, 170, 'smallPlatform');
-
   platforms.create(350, 300, 'vSmallPlatform');
 
 
@@ -171,7 +172,7 @@ function create ()
   });
 
 
-player.anims.play('eating',true);
+  player.anims.play('eating',true);
   //CHICKEN
   food = this.physics.add.group({
     key: 'deadChicken',
@@ -185,6 +186,11 @@ player.anims.play('eating',true);
       child.setBounceY(Phaser.Math.FloatBetween(0.2, 0.4));
 
   });
+
+  bombs = this.physics.add.group();
+  this.physics.add.collider(bombs, platforms);
+  this.physics.add.collider(player, bombs, hitBomb, null, this);
+  createBomb();
 
 
   this.physics.add.overlap(player, food, collectFood, null, this);
@@ -235,7 +241,7 @@ function update ()
 
   food.children.iterate(function (child) {
 
-      if(distance(this.player.x, this.player.y, child.x, child.y) <= 100){
+      if(distance(this.player.x, this.player.y, child.x, child.y) <= 100 && child.body.enable){
         textChicken.x = child.x+child.width/2;
         textChicken.y = child.y-child.height/2;
         if(!responsiveVoice.isPlaying() && chickenSpeakCount < 1) {
@@ -251,6 +257,23 @@ function update ()
   });
 
 
+
+}
+
+function createBomb(){
+
+  setInterval(function(){
+    if(bombActive)
+    {
+      bombActive=false;
+      var x = (player.x < 400) ? Phaser.Math.Between(400, 800) : Phaser.Math.Between(0, 400);
+      var bomb = bombs.create(x, 16, 'bomb');
+      bomb.setBounce(1);
+      bomb.setCollideWorldBounds(true);
+      bomb.setVelocity(Phaser.Math.Between(-200, 200), 20);
+    }
+
+  }, 3000);
 
 }
 
@@ -270,6 +293,7 @@ function collectFood (player, food)
       // food.destroy();
       player.anims.play("eating",true);
       food.play("die", true);
+      food.disableBody();
       score += 10;
       scoreText.setText('SCORE: ' + score);
       textChicken.x = 1000;
@@ -279,6 +303,12 @@ function collectFood (player, food)
     annyang.addCommands(commands);
 
 
+}
+
+function hitBomb(player, bomb){
+  bombActive = true;
+  bomb.destroy();
+  console.log('boom!');
 }
 
 function jump(){
