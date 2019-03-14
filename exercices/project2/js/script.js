@@ -44,6 +44,7 @@ var player;
 var allPlatforms;
 var food;
 var chicken;
+var deadChicken;
 var platform;
 var smallPlatform;
 var vSmallPlatform;
@@ -60,13 +61,7 @@ $(document).ready(function(){
     // Let's define our first command. First the text we expect, and then the function it should call
     var commands = {
       //when you say fuck, the dino can jump
-      'Damn': function(){
-        jump();
-      },
-      'Pain': function(){
-        jump();
-      },
-      'Dumb': function(){
+      'Jump you idiot': function(){
         jump();
       },
       'You suck': function(){
@@ -89,7 +84,8 @@ function preload ()
   this.load.image('smallPlatform', 'assets/images/small-platform.png');
   this.load.image('vSmallPlatform', 'assets/images/v-small-platform.png');
   this.load.image('ground', 'assets/images/ground.png');
-  this.load.image('chicken', 'assets/images/chicken.png');
+  // this.load.image('chicken', 'assets/images/chicken.png');
+  // this.load.image('dead-chicken', 'assets/images/dead-chicken.png');
   this.load.spritesheet('dino',
       'assets/images/dino4.png',
       { frameWidth: 72, frameHeight: 50 }
@@ -97,6 +93,10 @@ function preload ()
   this.load.spritesheet('eating',
       'assets/images/eating.png',
       { frameWidth: 72, frameHeight: 50 }
+  );
+  this.load.spritesheet('deadChicken',
+      'assets/images/chicken2.png',
+      { frameWidth: 29, frameHeight: 30 }
   );
   //  Load the Google WebFont Loader script
   this.load.script('webfont', '//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js');
@@ -120,11 +120,11 @@ function create ()
   platforms.create(400, 590, 'ground').setScale(1.08).refreshBody();
 
   platforms.create(600, 400, 'platform');
-  platforms.create(290, 100, 'smallPlatform');
+
   platforms.create(60, 250, 'smallPlatform');
   platforms.create(330, 500, 'smallPlatform');
   platforms.create(600, 170, 'smallPlatform');
-  platforms.create(760, 250, 'vSmallPlatform');
+
   platforms.create(350, 300, 'vSmallPlatform');
 
 
@@ -138,7 +138,16 @@ function create ()
   this.anims.create({
       key: 'eating',
       frames: this.anims.generateFrameNumbers('dino', { start: 5, end: 6 }),
-      frameRate: 10
+      frameRate: 10,
+      repeat: -1
+
+  });
+
+  this.anims.create({
+      key: 'die',
+      frames: this.anims.generateFrameNumbers('deadChicken', { start: 0, end: 1 }),
+      frameRate: 10,
+      repeat:1
   });
 
   this.anims.create({
@@ -162,21 +171,22 @@ function create ()
   });
 
 
-
+player.anims.play('eating',true);
   //CHICKEN
   food = this.physics.add.group({
-    key: 'chicken',
+    key: 'deadChicken',
     repeat: 7,
     setXY: { x: 12, y: 0, stepX: 120 }
   });
 
+  // food.children.entries[4].play("die",true);
   food.children.iterate(function (child) {
 
       child.setBounceY(Phaser.Math.FloatBetween(0.2, 0.4));
-      console.log(child.active)
-
 
   });
+
+
   this.physics.add.overlap(player, food, collectFood, null, this);
   this.physics.add.collider(food, platforms);
   this.physics.add.collider(player, platforms);
@@ -198,10 +208,7 @@ function update ()
 
   cursors = this.input.keyboard.createCursorKeys();
 
-  if(cursors.shift.isDown){
-    console.log('anim')
-    player.anims.play('eating');
-  }
+
 
   if (cursors.left.isDown)
   {
@@ -215,7 +222,7 @@ function update ()
 
       player.anims.play('right', true);
   }
-  else
+  else if(!eat)
   {
       player.setVelocityX(0);
 
@@ -223,7 +230,7 @@ function update ()
   }
   if (cursors.up.isDown && player.body.touching.down)
   {
-      player.setVelocityY(-330);
+      player.setVelocityY(-300);
   }
 
   food.children.iterate(function (child) {
@@ -254,21 +261,23 @@ function allowEat(){
 function collectFood (player, food)
 {
     //food.disableBody(true, true);
-    var commands = {'Die': allowEat};
-    annyang.addCommands(commands);
-
-    if(eat){
-      player.anims.play('eat', false);
+    var commands = {'Die': function () {
+      eat = true;
       setTimeout(function(){
         eat=false;
-      },500);
+      },250);
       chickenSpeakCount=0;
-      food.destroy();
+      // food.destroy();
+      player.anims.play("eating",true);
+      food.play("die", true);
       score += 10;
       scoreText.setText('SCORE: ' + score);
-      textChicken.x = -200;
+      textChicken.x = 1000;
       responsiveVoice.speak("Die, fucking chicken!", "US English Male", {pitch: 2}, {rate: 50});
-    }
+      annyang.removeCommands('Die');
+    }};
+    annyang.addCommands(commands);
+
 
 }
 
