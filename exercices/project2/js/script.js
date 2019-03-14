@@ -39,7 +39,6 @@ WebFontConfig = {
 
 };
 var dino;
-var dino-eat;
 var eat=false;
 var player;
 var allPlatforms;
@@ -92,12 +91,8 @@ function preload ()
   this.load.image('ground', 'assets/images/ground.png');
   this.load.image('chicken', 'assets/images/chicken.png');
   this.load.spritesheet('dino',
-      'assets/images/dino2.png',
-      { frameWidth: 63, frameHeight: 50 }
-  );
-  this.load.spritesheet('dino-eat',
-      'assets/images/eating-eat.png',
-      { frameWidth: 63, frameHeight: 50 }
+      'assets/images/dino3.png',
+      { frameWidth: 72, frameHeight: 50 }
   );
   //  Load the Google WebFont Loader script
   this.load.script('webfont', '//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js');
@@ -159,7 +154,7 @@ function create ()
 
   this.anims.create({
       key: 'eat',
-      frames: this.anims.generateFrameNumbers('dino-eat', { start: 1, end: 2 }),
+      frames: this.anims.generateFrameNumbers('dino', { start: 5, end: 6 }),
       frameRate: 10,
       repeat: -1
   });
