@@ -91,7 +91,11 @@ function preload ()
   this.load.image('ground', 'assets/images/ground.png');
   this.load.image('chicken', 'assets/images/chicken.png');
   this.load.spritesheet('dino',
-      'assets/images/dino3.png',
+      'assets/images/dino4.png',
+      { frameWidth: 72, frameHeight: 50 }
+  );
+  this.load.spritesheet('eating',
+      'assets/images/eating.png',
       { frameWidth: 72, frameHeight: 50 }
   );
   //  Load the Google WebFont Loader script
@@ -131,6 +135,11 @@ function create ()
   player.setBounce(0.2);
   player.setCollideWorldBounds(true);
 
+  this.anims.create({
+      key: 'eating',
+      frames: this.anims.generateFrameNumbers('dino', { start: 5, end: 6 }),
+      frameRate: 10
+  });
 
   this.anims.create({
       key: 'left',
@@ -152,23 +161,19 @@ function create ()
       repeat: -1
   });
 
-  this.anims.create({
-      key: 'eat',
-      frames: this.anims.generateFrameNumbers('dino', { start: 5, end: 6 }),
-      frameRate: 2,
-      repeat: -1
-  });
+
 
   //CHICKEN
   food = this.physics.add.group({
     key: 'chicken',
-    repeat: 11,
-    setXY: { x: 12, y: 0, stepX: 70 }
+    repeat: 7,
+    setXY: { x: 12, y: 0, stepX: 120 }
   });
 
   food.children.iterate(function (child) {
 
       child.setBounceY(Phaser.Math.FloatBetween(0.2, 0.4));
+      console.log(child.active)
 
 
   });
@@ -190,7 +195,14 @@ function distance(x1, y1, x2, y2) {
 
 function update ()
 {
+
   cursors = this.input.keyboard.createCursorKeys();
+
+  if(cursors.shift.isDown){
+    console.log('anim')
+    player.anims.play('eating');
+  }
+
   if (cursors.left.isDown)
   {
       player.setVelocityX(-60);
@@ -209,11 +221,6 @@ function update ()
 
       player.anims.play('turn');
   }
-
-  if(eat==true){
-    player.anims.play('eat');
-  }
-
   if (cursors.up.isDown && player.body.touching.down)
   {
       player.setVelocityY(-330);
@@ -228,6 +235,9 @@ function update ()
           chickenSpeakCount = chickenSpeakCount +1;
           responsiveVoice.speak("FUCK OFF, you monster!", "US English Female", {pitch: 2}, {rate: 50});
         }
+      }else if(distance(this.player.x, this.player.y, child.x, child.y) > 101 && distance(this.player.x, this.player.y, child.x, child.y)<125){
+        textChicken.x = 1000;
+        textChicken.y = 1000;
       }
 
   });
@@ -238,6 +248,7 @@ function update ()
 
 function allowEat(){
   eat=true;
+  console.log(eat);
 }
 function collectFood (player, food)
 {
@@ -246,8 +257,10 @@ function collectFood (player, food)
     annyang.addCommands(commands);
 
     if(eat){
-      eat=false;
-      player.anims.play('eat');
+      player.anims.play('eat', false);
+      setTimeout(function(){
+        eat=false;
+      },500);
       chickenSpeakCount=0;
       food.destroy();
       score += 10;
