@@ -209,6 +209,11 @@ function update ()
 
       player.anims.play('turn');
   }
+
+  if(eat==true){
+    player.anims.play('eat');
+  }
+
   if (cursors.up.isDown && player.body.touching.down)
   {
       player.setVelocityY(-330);
