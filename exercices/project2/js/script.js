@@ -238,6 +238,7 @@ function update ()
       }else if(distance(this.player.x, this.player.y, child.x, child.y) > 101 && distance(this.player.x, this.player.y, child.x, child.y)<125){
         textChicken.x = 1000;
         textChicken.y = 1000;
+        chickenSpeakCount=0;
       }
 
   });
