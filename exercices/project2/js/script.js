@@ -39,6 +39,7 @@ WebFontConfig = {
 
 };
 var dino;
+var eat=false;
 var player;
 var allPlatforms;
 var food;
@@ -165,7 +166,7 @@ function create ()
 
 
   });
-  this.physics.add.overlap(player, food, allowEat, null, this);
+  this.physics.add.overlap(player, food, collectFood, null, this);
   this.physics.add.collider(food, platforms);
   this.physics.add.collider(player, platforms);
 
@@ -224,17 +225,23 @@ function update ()
 }
 
 function allowEat(){
-  var commands = {'Die': collectFood};
-  annyang.addCommands(commands);
+  eat=true;
 }
 function collectFood (player, food)
 {
     //food.disableBody(true, true);
-    food.destroy();
-    score += 10;
-    scoreText.setText('SCORE: ' + score);
-    textChicken.x = -200;
-    responsiveVoice.speak("Die, fucking chicken!", "US English Male", {pitch: 2}, {rate: 50});
+    var commands = {'Die': allowEat};
+    annyang.addCommands(commands);
+
+    if(eat){
+      eat=false;
+      food.destroy();
+      score += 10;
+      scoreText.setText('SCORE: ' + score);
+      textChicken.x = -200;
+      responsiveVoice.speak("Die, fucking chicken!", "US English Male", {pitch: 2}, {rate: 50});
+    }
+
 }
 
 function jump(){
