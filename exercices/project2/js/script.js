@@ -176,7 +176,7 @@ function create ()
 
 //function to calculate distance between chicken and dino
 function distance(x1, y1, x2, y2) {
-        console.log('distance');
+
         var dx = x1 - x2;
         var dy = y1 - y2;
 
@@ -213,9 +213,11 @@ function update ()
   food.children.iterate(function (child) {
 
       if(distance(this.player.x, this.player.y, child.x, child.y) <= 100){
-        console.log('CLOSE');
         textChicken.x = child.x+child.width/2;
         textChicken.y = child.y-child.height/2;
+        if(!responsiveVoice.isPlaying()) {
+          responsiveVoice.speak("FUCK OFF, you monster!", "US English Female", {pitch: 2}, {rate: 50});
+        }
       }
 
   });
@@ -231,10 +233,11 @@ function collectFood (player, food)
     score += 10;
     scoreText.setText('SCORE: ' + score);
     textChicken.x = -200;
+    responsiveVoice.speak("Die, fucking chicken!", "US English Male", {pitch: 2}, {rate: 50});
 }
 
 function jump(){
-  console.log('jump');
+
   if (player.body.touching.down)
   {
       player.setVelocityY(-300);
