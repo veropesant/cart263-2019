@@ -39,10 +39,10 @@ WebFontConfig = {
 
 };
 var dino;
-var eat=false;
 var player;
 var playerActive=true;
 var allPlatforms;
+var eat=false;
 var food;
 var chicken;
 var bombs;
@@ -124,7 +124,7 @@ function create ()
   platforms.create(400, 590, 'ground').setScale(1.08).refreshBody();
 
   platforms.create(600, 400, 'platform');
-  platforms.create(60, 250, 'smallPlatform');
+  platforms.create(100, 350, 'smallPlatform');
   platforms.create(330, 500, 'smallPlatform');
   platforms.create(600, 170, 'smallPlatform');
   platforms.create(350, 300, 'vSmallPlatform');
@@ -326,6 +326,7 @@ function hitBomb(player, bomb){
   eat=false;
   if(!playerActive){
     player.anims.play("dinoDie",true);
+    var gameOver = this.add.text(16, 16, 'You FUCKING died!', { fontSize: '30px', fill: '#fff', fontFamily:'VT323'});
   }
   bomb.destroy();
   console.log('boom!');
