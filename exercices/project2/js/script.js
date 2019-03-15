@@ -122,7 +122,7 @@ function create ()
   textChicken = this.add.text(-200, -200, 'FUCK OFF!', { fontSize: '18px', fill: '#000', fontFamily:'VT323'});
 
   //GAME OVER TEXT
-  gameOverTextDisplay = this.add.text(140, 200, ''+gameOverText, { fontSize: '80px', fill: '#000', fontFamily:'VT323'});
+  // gameOverTextDisplay = this.add.text(140, 200, ''+gameOverText, { fontSize: '80px', fill: '#000', fontFamily:'VT323'});
 
 
   //PLATFORMS
@@ -319,7 +319,7 @@ function collectFood (player, food)
       if(score >= (chickenNumber+1)*10){
         winState = true;
         gameOver(winState);
-        gameOverText = 'I guess you won...'
+        // gameOverText = 'I guess you won...'
       }
 
       scoreText.setText('SCORE: ' + score);
@@ -336,7 +336,7 @@ function hitBomb(player, bomb){
   bomb.destroy();
   player.setVelocityX(0);
   playerActive=false;
-  gameOverText = 'You fucking DIED asshole!';
+  // gameOverText = 'You fucking DIED asshole!';
   winState=false;
   gameOver(winState);
 }
@@ -344,7 +344,7 @@ function hitBomb(player, bomb){
 function gameOver(state){
   bombActive = true;
   eat=false;
-  gameOverTextDisplay.setText(gameOverText);
+  // gameOverTextDisplay.setText(gameOverText);
   if(!winState){
     player.anims.play("dinoDie",true);
   }else{
