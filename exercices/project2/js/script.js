@@ -45,6 +45,7 @@ var allPlatforms;
 var eat=false;
 var food;
 var chicken;
+var chickenNumber = 1;
 var bombs;
 var bombActive=true;
 var deadChicken;
@@ -56,6 +57,9 @@ var score = 0;
 var scoreText;
 var textChicken;
 var chickenSpeakCount=0;
+var gameOverText="";
+var gameOverTextDisplay;
+var winState;
 var game = new Phaser.Game(config);
 
 $(document).ready(function(){
@@ -116,6 +120,9 @@ function create ()
 
   //CHICKEN TEXT
   textChicken = this.add.text(-200, -200, 'FUCK OFF!', { fontSize: '18px', fill: '#000', fontFamily:'VT323'});
+
+  //GAME OVER TEXT
+  gameOverTextDisplay = this.add.text(140, 200, ''+gameOverText, { fontSize: '80px', fill: '#000', fontFamily:'VT323'});
 
 
   //PLATFORMS
@@ -182,7 +189,7 @@ function create ()
   //CHICKEN
   food = this.physics.add.group({
     key: 'deadChicken',
-    repeat: 7,
+    repeat: chickenNumber,
     setXY: { x: 12, y: 0, stepX: 120 }
   });
 
@@ -309,6 +316,12 @@ function collectFood (player, food)
       food.play("die", true);
       food.disableBody();
       score += 10;
+      if(score >= (chickenNumber+1)*10){
+        winState = true;
+        gameOver(winState);
+        gameOverText = 'I guess you won...'
+      }
+
       scoreText.setText('SCORE: ' + score);
       textChicken.x = 1000;
       responsiveVoice.speak("Die, fucking chicken!", "US English Male", {pitch: 2}, {rate: 50});
@@ -320,16 +333,23 @@ function collectFood (player, food)
 }
 
 function hitBomb(player, bomb){
-  bombActive = true;
-  playerActive=false;
-  player.setVelocityX(0);
-  eat=false;
-  if(!playerActive){
-    player.anims.play("dinoDie",true);
-    var gameOver = this.add.text(16, 16, 'You FUCKING died!', { fontSize: '30px', fill: '#fff', fontFamily:'VT323'});
-  }
   bomb.destroy();
-  console.log('boom!');
+  player.setVelocityX(0);
+  playerActive=false;
+  gameOverText = 'You fucking DIED asshole!';
+  winState=false;
+  gameOver(winState);
+}
+
+function gameOver(state){
+  bombActive = true;
+  eat=false;
+  gameOverTextDisplay.setText(gameOverText);
+  if(!winState){
+    player.anims.play("dinoDie",true);
+  }else{
+    player.anims.play("turn",true);
+  }
 }
 
 function jump(){
