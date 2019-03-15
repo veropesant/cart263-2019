@@ -45,7 +45,7 @@ var allPlatforms;
 var eat=false;
 var food;
 var chicken;
-var chickenNumber = 1;
+var maxScore=50;
 var bombs;
 var bombActive=true;
 var deadChicken;
@@ -60,6 +60,7 @@ var chickenSpeakCount=0;
 var gameOverText="";
 var gameOverTextDisplay;
 var winState;
+var instructionText;
 var game = new Phaser.Game(config);
 
 $(document).ready(function(){
@@ -75,6 +76,7 @@ $(document).ready(function(){
         jump();
       }
     };
+
 
     // Add our commands to annyang
     annyang.addCommands(commands);
@@ -115,14 +117,19 @@ function create ()
   //BACKGROUND
   this.add.image(400, 300, 'sky');
 
+  //instruction text
+  instructionText = this.add.text(16, 50, 'Say DIE to fucking eat your fucking chicken\nand JUMP YOU IDIOT! to make the dino fucking jump!\nThis game is hard as SHIT\nDON\'T TOUCH THE BOMBS', { fontSize: '30px', fill: '#000', fontFamily:'VT323'});
+  setTimeout(function(){
+    instructionText.destroy();
+  },10000);
+
   //SCORE
   scoreText = this.add.text(16, 16, 'SCORE: '+score, { fontSize: '30px', fill: '#fff', fontFamily:'VT323'});
 
   //CHICKEN TEXT
   textChicken = this.add.text(-200, -200, 'FUCK OFF!', { fontSize: '18px', fill: '#000', fontFamily:'VT323'});
 
-  //GAME OVER TEXT
-  // gameOverTextDisplay = this.add.text(140, 200, ''+gameOverText, { fontSize: '80px', fill: '#000', fontFamily:'VT323'});
+
 
 
   //PLATFORMS
@@ -133,10 +140,11 @@ function create ()
   platforms.create(600, 400, 'platform');
   platforms.create(100, 350, 'smallPlatform');
   platforms.create(330, 500, 'smallPlatform');
-  platforms.create(600, 170, 'smallPlatform');
+  platforms.create(600, 270, 'smallPlatform');
   platforms.create(350, 300, 'vSmallPlatform');
 
-
+  //GAME OVER TEXT DISPLAYED OUTSIDE THE CANVAS FOR NOW
+  gameOverTextDisplay = this.add.text(-1000, -1000, 'GAME OVER!', { fontSize: '80px', fill: '#000', fontFamily:'VT323'});
 
   //PLAYER
   player = this.physics.add.sprite(100, 450, 'dino');
@@ -189,8 +197,8 @@ function create ()
   //CHICKEN
   food = this.physics.add.group({
     key: 'deadChicken',
-    repeat: chickenNumber,
-    setXY: { x: 12, y: 0, stepX: 120 }
+    repeat: 4,
+    setXY: { x: 120, y: 0, stepX: 120 }
   });
 
   // food.children.entries[4].play("die",true);
@@ -294,7 +302,7 @@ function createBomb(){
       bomb.setVelocity(Phaser.Math.Between(-200, 200), 20);
     }
 
-  }, 3000);
+  }, 10000);
 
 }
 
@@ -316,7 +324,7 @@ function collectFood (player, food)
       food.play("die", true);
       food.disableBody();
       score += 10;
-      if(score >= (chickenNumber+1)*10){
+      if(score >= maxScore){
         winState = true;
         gameOver(winState);
         // gameOverText = 'I guess you won...'
@@ -334,9 +342,7 @@ function collectFood (player, food)
 
 function hitBomb(player, bomb){
   bomb.destroy();
-  player.setVelocityX(0);
   playerActive=false;
-  // gameOverText = 'You fucking DIED asshole!';
   winState=false;
   gameOver(winState);
 }
@@ -344,7 +350,9 @@ function hitBomb(player, bomb){
 function gameOver(state){
   bombActive = true;
   eat=false;
-  // gameOverTextDisplay.setText(gameOverText);
+  playerActive=false;
+  gameOverTextDisplay.x=config.width/3;
+  gameOverTextDisplay.y=config.height/3;
   if(!winState){
     player.anims.play("dinoDie",true);
   }else{
