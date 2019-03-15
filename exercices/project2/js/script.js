@@ -41,6 +41,7 @@ WebFontConfig = {
 var dino;
 var eat=false;
 var player;
+var playerActive=true;
 var allPlatforms;
 var food;
 var chicken;
@@ -90,8 +91,8 @@ function preload ()
   // this.load.image('chicken', 'assets/images/chicken.png');
   // this.load.image('dead-chicken', 'assets/images/dead-chicken.png');
   this.load.spritesheet('dino',
-      'assets/images/dino4.png',
-      { frameWidth: 73, frameHeight: 50 }
+      'assets/images/dino5.png',
+      { frameWidth: 71, frameHeight: 50 }
   );
   this.load.spritesheet('eating',
       'assets/images/eating.png',
@@ -147,8 +148,7 @@ function create ()
   this.anims.create({
       key: 'die',
       frames: this.anims.generateFrameNumbers('deadChicken', { start: 0, end: 1 }),
-      frameRate: 10,
-      repeat:1
+      frameRate: 10
   });
 
   this.anims.create({
@@ -169,6 +169,12 @@ function create ()
       frames: this.anims.generateFrameNumbers('dino', { start: 3, end: 4 }),
       frameRate: 10,
       repeat: -1
+  });
+
+  this.anims.create({
+      key: 'dinoDie',
+      frames: [ { key: 'dino', frame: 7 } ],
+      frameRate: 10
   });
 
 
@@ -218,17 +224,22 @@ function update ()
 
   if (cursors.left.isDown)
   {
+    if(playerActive){
       player.setVelocityX(-60);
 
       player.anims.play('left', true);
+    }
+
   }
   else if (cursors.right.isDown)
   {
+    if(playerActive){
       player.setVelocityX(60);
-
       player.anims.play('right', true);
+    }
+
   }
-  else if(!eat)
+  else if(!eat && playerActive)
   {
       player.setVelocityX(0);
 
@@ -236,7 +247,10 @@ function update ()
   }
   if (cursors.up.isDown && player.body.touching.down)
   {
+    if(playerActive){
       player.setVelocityY(-300);
+    }
+
   }
 
   food.children.iterate(function (child) {
@@ -263,7 +277,7 @@ function update ()
 function createBomb(){
 
   setInterval(function(){
-    if(bombActive)
+    if(bombActive && playerActive)
     {
       bombActive=false;
       var x = (player.x < 400) ? Phaser.Math.Between(400, 800) : Phaser.Math.Between(0, 400);
@@ -307,6 +321,12 @@ function collectFood (player, food)
 
 function hitBomb(player, bomb){
   bombActive = true;
+  playerActive=false;
+  player.setVelocityX(0);
+  eat=false;
+  if(!playerActive){
+    player.anims.play("dinoDie",true);
+  }
   bomb.destroy();
   console.log('boom!');
 }
