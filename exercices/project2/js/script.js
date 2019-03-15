@@ -1,5 +1,5 @@
 /*****************
-Véronique Pesant
+Project 2 : Bad bad Dino
 Véronique Pesant
 
 This is a template. You must fill in the title,
