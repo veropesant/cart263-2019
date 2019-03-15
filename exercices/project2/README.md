@@ -13,6 +13,15 @@ As I was doing my graphics, I remembered a little game that came out last year I
 think, in which you had to yell to avoid obstacles and I thought it was a funny
 idea, so it inspired me to use speech as commands for certain actions in my game.
 
+The link with the essay is probably quite obvious, but I'm still going to explain
+it. What I understood of the article was that today on the internet we're never really
+safe. Whatever we see that appears to be cute and innocent, can turn out to be
+something so heavy and inappropriate. It is especially 'dangerous' for children, since
+today, most of them go around the internet freely without any supervison. They could
+easy fall on games like mine, who encourage them to use bad words to kill innocent
+creatures and leave a bloody corpses behind. I simply tried to illustrate that
+everything is not what it seems.
+
 I came across a few difficulties while coding my game. The first was the fact that
 phaser, which was in appearance quite simple, can be quite complicated to use, when
 you go beyond their basic tutorial. It's a great tool with a lot of possibilities,
@@ -33,4 +42,4 @@ most of the body is floating. Finally, there's a problem with the font, you some
 need to refresh the page to make the right font appear.
 
 In the end I'm still satisfied but the perfectionist in me knows that I could've
-done much better and that's a little frustrating. 
+done much better and that's a little frustrating.
