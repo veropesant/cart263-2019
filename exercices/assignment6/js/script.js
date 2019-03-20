@@ -1,18 +1,7 @@
 /*
 
 Condiments
-Pippin Barr
-
-Chooses random words from local JSON data to fill out a sentence
-describing a condiment based on cats and rooms... weird.
-
-Uses:
-
-Corpora
-https://github.com/dariusk/corpora
-
-RiTA
-http://rednoise.org/rita/index.html
+Véronique Pesant
 
 */
 
@@ -59,6 +48,7 @@ function gotData(data) {
   // Same again for room
   let currentRoom = getRandomElement(data.rooms, 'rooms');
   let room;
+  //ADDED CODE TO CHECK THE FIRST LETTER OF THE ROOM
   for(let i=0; i<=vowels.length; i++){
     if(vowels.charAt(i)==currentRoom.charAt(0)){
       room = 'an '+currentRoom;
@@ -71,6 +61,7 @@ function gotData(data) {
   // Same again for color
   let currentColor = getRandomElement(data.colors, 'colors').toLowerCase();
   let color;
+  //ADDED CODE TO CHECK THE FIRST LETTER OF THE COLOR
   for(let i=0; i<=vowels.length; i++){
     if(vowels.charAt(i)==currentColor.charAt(0)){
       color = 'an '+currentColor;
