@@ -91,6 +91,8 @@ function gotData(data) {
 //
 // Returns a random element from the array provided
 function getRandomElement(array, type) {
+  //ADDED A PIECE OF CODE TO CHECK WHAT WE ARE USING' BECAUSE
+  //COLORS NEED A SPECIFICATION MORE
   if(type=='colors'){
     return array[Math.floor(Math.random() * array.length)].color;
   }else{
