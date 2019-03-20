@@ -18,6 +18,7 @@ $(document).ready(function() {
   $.getJSON('data/data.json', gotData);
 });
 
+//ADDED THE RELOAD FUNCTION ON CLICK OF THE PAGE
 $(document).on('click', function(){
   location.reload();
 })
@@ -27,11 +28,8 @@ $(document).on('click', function(){
 // This function gets called by getJSON when the data has been loaded.
 // The data itself will be in the 'data' argument as a JavaScript object.
 function gotData(data) {
-  // Now we select random elements from the three arrays inside
-  // our JSON to get a random condiment, cat, and room. Then we add those
-  // words onto our page by setting the text of the appropriate span.
 
-  // First the condiment
+
   // Get a random condiment from the condiments array in the JSON
   let condiment = getRandomElement(data.condiments, 'condiments');
   // Assume it's singular
@@ -70,13 +68,6 @@ function gotData(data) {
       color= 'a '+currentColor;
     }
   }
-
-
-  // if(currentColor.charAt(0)=='A' || currentColor.charAt(0)=='E' || currentColor.charAt(0)=='I' || currentColor.charAt(0)=='O' || currentColor.charAt(0)=='U'){
-  //   color = 'an '+currentColor;
-  // }else{
-  //   color = 'a '+currentColor;
-  // }
 
   // Now we can construct our description with a template string
   // We have the basic structure of a sentence and we substitute in the
