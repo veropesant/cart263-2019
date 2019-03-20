@@ -41,6 +41,7 @@ function gotData(data) {
   }
 
   // Now the cat
+  //Used toLowerCase so that the condition can be met later
   let cat = getRandomElement(data.cats, 'cats').toLowerCase();
 
   // Same again for room
@@ -57,6 +58,7 @@ function gotData(data) {
   }
 
   // Same again for color
+  //Used toLowerCase so that the condition can be met later
   let currentColor = getRandomElement(data.colors, 'colors').toLowerCase();
   let color;
   //ADDED CODE TO CHECK THE FIRST LETTER OF THE COLOR
