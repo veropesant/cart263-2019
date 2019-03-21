@@ -15,22 +15,22 @@ let frequencies =[
   246.94,
   138.59,
   146.83,
-  "",
   164.81,
   185.00,
   207.65
 ]
 let pattern = [
+  'ox',
   'o',
+  'o*',
+  'ox',
+  'ox',
+  'x',
   'o',
-  'o',
-  'o',
-  'o',
-  'o',
-  'o',
-  'o'
+  '*'
 ]
 let patternIndex=0;
+let timer;
 let randFrequency;
 let synth;
 let kick;
@@ -51,6 +51,24 @@ function preload() {
 
 function setup() {
 
+  var flanger = new Pizzicato.Effects.Flanger({
+      time: 0.45,
+      speed: 0.2,
+      depth: 0.1,
+      feedback: 0.1,
+      mix: 0.5
+  });
+  var stereoPanner = new Pizzicato.Effects.StereoPanner({
+    pan: 0.0
+  });
+  var ringModulator = new Pizzicato.Effects.RingModulator({
+    speed: 30,
+    distortion: 1,
+    mix: 0.3
+});
+
+
+
   synth = new Pizzicato.Sound({
     source: 'wave',
   });
@@ -60,6 +78,12 @@ function setup() {
   snare = new Pizzicato.Sound('../assets/sounds/snare.wav');
 
   hihat = new Pizzicato.Sound('../assets/sounds/hihat.wav');
+
+
+  synth.addEffect(ringModulator);
+  kick.addEffect(stereoPanner);
+  snare.addEffect(stereoPanner);
+  hihat.addEffect(stereoPanner);
 
 }
 
@@ -74,16 +98,26 @@ function draw() {
 
 function mousePressed(){
   if(!randFrequency){
-    setInterval(playNote,500);
-    setInterval(playNote,500);
-    setInterval(playDrums,250);
+    playNote();
+    setInterval(playDrums,200);
   }
 }
 
 function playNote(){
+
   randFrequency = random(frequencies);
-  synth.frequency = randFrequency;
-  synth.play();
+  if(randFrequency==""){
+    synth.stop();
+  }else{
+    synth.frequency=randFrequency;
+    synth.play();
+  }
+
+  setTimeout(function(){
+    playNote();
+  },random(50,250));
+
+
 }
 
 function playDrums(){
