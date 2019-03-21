@@ -50,6 +50,7 @@ function preload() {
 // Description of setup
 
 function setup() {
+  createCanvas(710, 400);
 
   var flanger = new Pizzicato.Effects.Flanger({
       time: 0.45,
@@ -93,6 +94,11 @@ function setup() {
 // Description of draw()
 
 function draw() {
+  background('magenta');
+  textAlign(CENTER);
+  textFont('arial');
+  fill('#ffffff');
+  text("CLICK!\nand sound on.", width/2, height/2);
 
 }
 
