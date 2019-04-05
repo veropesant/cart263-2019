@@ -16,8 +16,21 @@ to select the colors and add a sound when clicked.
 
 ******************/
 //VARIABLES
+// Time for one note
+const NOTE_TEMPO = 500;
+// Time for one beat
+const DRUM_TEMPO = 250;
+// Attack time for a note (in seconds)
+const ATTACK = 0.1;
+// Release time for a note (in seconds)
+const RELEASE = 0.1;
+
 let hoverColor = 'blue';
 let colors = ['blue', 'red', 'green', 'yellow', 'orange'];
+let hihat;
+let kick;
+let snare;
+let sound;
 let $keys;
 let $colors;
 
@@ -42,17 +55,40 @@ $(document).ready(function(){
     position += 80;
   }
 
+
+  kick = new Pizzicato.Sound({
+    source: 'file',
+    options: {
+      path: 'assets/sounds/kick.wav'
+    }
+  });
+
+  snare = new Pizzicato.Sound({
+    source: 'file',
+    options: {
+      path: 'assets/sounds/snare.wav'
+    }
+  });
+
+  hihat = new Pizzicato.Sound({
+    source: 'file',
+    options: {
+      path: 'assets/sounds/hihat.wav'
+    }
+  });
+
 })
 
 function setHoverColor(){
   console.log(hoverColor);
   $keys.hover(function(){
-    $(this).css('background-color', hoverColor);
+    $(this).css('border', '2px solid '+hoverColor);
+    console.log($(this).css('background'));
   });
   $keys.mouseout(function(){
-    if(!$(this).hasClass('selected')){
-      $(this).css('background-color','');
-    }
+
+    $(this).css('border', '');
+
   });
 
 }
@@ -63,22 +99,17 @@ function selectColor(){
     case 'color1':
     hoverColor='blue';
     setHoverColor();
+    kick.play();
       break;
     case 'color2':
     hoverColor='red';
     setHoverColor();
+    hihat.play();
       break;
     case 'color3':
     hoverColor='green';
     setHoverColor();
-      break;
-    case 'color4':
-    hoverColor='yellow';
-    setHoverColor();
-      break;
-    case 'color5':
-    hoverColor='orange';
-    setHoverColor();
+    snare.play();
       break;
   }
 }
@@ -89,5 +120,16 @@ function selectSquare(){
       $(this).addClass('selected');
   }
   $(this).css('background-color', hoverColor);
+  switch (hoverColor) {
+    case 'blue':
+    kick.play();
+      break;
+    case 'red':
+    hihat.play();
+      break;
+    case 'green':
+    snare.play();
+      break;
+  }
 
 }
