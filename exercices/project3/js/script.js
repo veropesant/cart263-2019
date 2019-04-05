@@ -20,6 +20,7 @@ let hoverColor = 'blue';
 let colors = ['blue', 'red', 'green', 'yellow', 'orange'];
 let $keys;
 let $colors;
+
 $(document).ready(function(){
   console.log('ready');
   $colors = $('.colors');
@@ -36,6 +37,8 @@ $(document).ready(function(){
 
   for(let i=0; i<=$keys.length;i++){
     $('#key'+(i+1)).css('left', position+'px');
+    $('#key'+(i+1)).css('background-color', '');
+    $('#key'+(i+1)).on('click', selectSquare);
     position += 80;
   }
 
@@ -44,10 +47,12 @@ $(document).ready(function(){
 function setHoverColor(){
   console.log(hoverColor);
   $keys.hover(function(){
-    $(this).css('background-color',hoverColor);
+    $(this).css('background-color', hoverColor);
   });
   $keys.mouseout(function(){
-    $(this).css('background-color','');
+    if(!$(this).hasClass('selected')){
+      $(this).css('background-color','');
+    }
   });
 
 }
@@ -75,7 +80,14 @@ function selectColor(){
     hoverColor='orange';
     setHoverColor();
       break;
-
-
   }
+}
+
+function selectSquare(){
+  let currentId = this.id;
+  if(!$(this).hasClass('selected')){
+      $(this).addClass('selected');
+  }
+  $(this).css('background-color', hoverColor);
+
 }
