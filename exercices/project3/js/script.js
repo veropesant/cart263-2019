@@ -165,6 +165,21 @@ function selectSquare(){
     case 'green':
     piano.play('E', 4, 2);
       break;
+    case 'yellow':
+    piano.play('F', 4, 2);
+      break;
+    case 'orange':
+    piano.play('G', 4, 2);
+      break;
+    case 'purple':
+    piano.play('A', 4, 2);
+      break;
+    case 'black':
+    piano.play('B', 4, 2);
+      break;
+    case 'pink':
+    piano.play('C', 5, 2);
+      break;
   }
 
 }
