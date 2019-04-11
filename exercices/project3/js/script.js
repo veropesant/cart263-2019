@@ -26,7 +26,7 @@ const ATTACK = 0.1;
 const RELEASE = 0.1;
 
 let hoverColor = 'blue';
-let colors = ['blue', 'red', 'green', 'yellow', 'orange'];
+let colors = ['blue', 'red', 'green', 'yellow', 'orange', 'purple', 'black','pink'];
 let hihat;
 let kick;
 let snare;
@@ -107,19 +107,44 @@ function selectColor(){
   console.log(this);
   switch (this.id) {
     case 'color1':
-    hoverColor='blue';
+    hoverColor=colors[1-1];
     setHoverColor();
     piano.play('C', 4, 2);
       break;
     case 'color2':
-    hoverColor='red';
+    hoverColor=colors[2-1];
     setHoverColor();
     piano.play('D', 4, 2);
       break;
     case 'color3':
-    hoverColor='green';
+    hoverColor=colors[3-1];
     setHoverColor();
     piano.play('E', 4, 2);
+      break;
+    case 'color4':
+    hoverColor=colors[4-1];
+    setHoverColor();
+    piano.play('F', 4, 2);
+      break;
+    case 'color5':
+    hoverColor=colors[5-1];
+    setHoverColor();
+    piano.play('G', 4, 2);
+      break;
+    case 'color6':
+    hoverColor=colors[6-1];
+    setHoverColor();
+    piano.play('A', 4, 2);
+      break;
+    case 'color7':
+    hoverColor=colors[7-1];
+    setHoverColor();
+    piano.play('B', 4, 2);
+      break;
+    case 'color8':
+    hoverColor=colors[8-1];
+    setHoverColor();
+    piano.play('C', 5, 2);
       break;
   }
 }
