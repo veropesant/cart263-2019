@@ -33,6 +33,7 @@ let snare;
 let sound;
 let $keys;
 let $colors;
+let piano;
 
 $(document).ready(function(){
   console.log('ready');
@@ -55,7 +56,6 @@ $(document).ready(function(){
     position += 80;
   }
 
-
   kick = new Pizzicato.Sound({
     source: 'file',
     options: {
@@ -76,6 +76,16 @@ $(document).ready(function(){
       path: 'assets/sounds/hihat.wav'
     }
   });
+
+  Synth instanceof AudioSynth; // true
+
+  var testInstance = new AudioSynth;
+  testInstance instanceof AudioSynth; // true
+
+  testInstance === Synth; // true
+
+  piano = Synth.createInstrument('piano');
+
 
 })
 
@@ -99,17 +109,17 @@ function selectColor(){
     case 'color1':
     hoverColor='blue';
     setHoverColor();
-    kick.play();
+    piano.play('C', 4, 2);
       break;
     case 'color2':
     hoverColor='red';
     setHoverColor();
-    hihat.play();
+    piano.play('D', 4, 2);
       break;
     case 'color3':
     hoverColor='green';
     setHoverColor();
-    snare.play();
+    piano.play('E', 4, 2);
       break;
   }
 }
@@ -122,13 +132,13 @@ function selectSquare(){
   $(this).css('background-color', hoverColor);
   switch (hoverColor) {
     case 'blue':
-    kick.play();
+    piano.play('C', 4, 2);
       break;
     case 'red':
-    hihat.play();
+    piano.play('D', 4, 2);
       break;
     case 'green':
-    snare.play();
+    piano.play('E', 4, 2);
       break;
   }
 
