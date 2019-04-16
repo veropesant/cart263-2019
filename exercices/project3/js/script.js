@@ -261,6 +261,8 @@ function playMusic(){
     if(activeColumn<=columnNumber){
       activeColumn+=1;
       playMusic();
+    }else{
+      activeColumn=1;
     }
   },200)
 }
