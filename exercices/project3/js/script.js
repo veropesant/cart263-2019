@@ -25,8 +25,8 @@ const ATTACK = 0.1;
 // Release time for a note (in seconds)
 const RELEASE = 0.1;
 
-let hoverColor = 'blue';
-let colors = ['blue', 'red', 'green', 'yellow', 'orange', 'purple', 'black','pink'];
+let hoverColor = '#6BB7EB';
+let colors = ['#6BB7EB', '#FF5F4D', '#57D068', '#FFF275', 'orange', '#C651C7', 'black','pink'];
 let hihat;
 let kick;
 let snare;
@@ -34,13 +34,17 @@ let sound;
 let $keys;
 let $colors;
 let piano;
+let columnLength = 30;
+let columnNumber = 30;
+let positionColor = 50;
+let position = 20;
+let positionLeft= 20;
+let idKey = 0;
 
 $(document).ready(function(){
   console.log('ready');
   $colors = $('.colors');
   $keys = $('.keys');
-  let positionColor = 50;
-  let position = 50;
 
   for(let i=0; i<=$colors.length;i++){
     $('#color'+(i+1)).css('left', positionColor+'px');
@@ -49,12 +53,33 @@ $(document).ready(function(){
     positionColor += 50;
   }
 
-  for(let i=0; i<=$keys.length;i++){
-    $('#key'+(i+1)).css('left', position+'px');
-    $('#key'+(i+1)).css('background-color', '');
-    $('#key'+(i+1)).on('click', selectSquare);
-    position += 80;
+  for(let j=0; j<columnNumber; j++){
+    $("#keyboard").append("<div class='rows' id='row"+(j+1)+"'></div>");
+    $("#row"+(j+1)).css('left',positionLeft+'px');
+    position=0;
+
+    for(let i=0; i<columnLength;i++){
+      let $key = "<div class='keys' id='key"+(idKey+1)+"'></div>";
+      $("#row"+(j+1)).append($key);
+      if(j === columnLength-1){
+        $('#key'+(idKey+1)).css('border-right', '1px solid black');
+      }else{
+        $('#key'+(idKey+1)).css('border-right', 'none');
+      }
+
+      $('#key'+(idKey+1)).css('top', position+'px');
+      $('#key'+(idKey+1)).css('background-color', '');
+      $('#key'+(idKey+1)).on('click', selectSquare);
+      position += 21;
+      idKey++;
+    }
+
+    positionLeft += 20;
+
   }
+
+
+
 
   kick = new Pizzicato.Sound({
     source: 'file',
@@ -92,7 +117,7 @@ $(document).ready(function(){
 function setHoverColor(){
   console.log(hoverColor);
   $keys.hover(function(){
-    $(this).css('border', '2px solid '+hoverColor);
+    $(this).css('border', '1px solid '+hoverColor);
     console.log($(this).css('background'));
   });
   $keys.mouseout(function(){
@@ -156,22 +181,22 @@ function selectSquare(){
   }
   $(this).css('background-color', hoverColor);
   switch (hoverColor) {
-    case 'blue':
+    case '#6BB7EB':
     piano.play('C', 4, 2);
       break;
-    case 'red':
+    case '#FF5F4D':
     piano.play('D', 4, 2);
       break;
-    case 'green':
+    case '#57D068':
     piano.play('E', 4, 2);
       break;
-    case 'yellow':
+    case '#FFF275':
     piano.play('F', 4, 2);
       break;
     case 'orange':
     piano.play('G', 4, 2);
       break;
-    case 'purple':
+    case '#C651C7':
     piano.play('A', 4, 2);
       break;
     case 'black':
