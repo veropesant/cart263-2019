@@ -35,6 +35,8 @@ let purple = '#C651C7';
 let black= '#000000';
 let pink= '#FFA5FD';
 
+let activeColumn=1;
+
 let hoverColor = '#6BB7EB';
 let colors = ['#6BB7EB', '#FF5F4D', '#57D068', '#FFF275', '#FF8D2F', '#C651C7', '#000000','#FFA5FD'];
 let hihat;
@@ -212,7 +214,12 @@ function selectSquare(){
       $(this).addClass('selected');
   }
   $(this).css('background-color', hoverColor);
-  switch (hoverColor) {
+  playNote(hoverColor);
+
+}
+
+function playNote(colorToPlay){
+  switch (colorToPlay) {
     case blue:
     piano.play('C', 4, 2);
       break;
@@ -238,20 +245,24 @@ function selectSquare(){
     piano.play('C', 5, 2);
       break;
   }
-
 }
 
 function playMusic(){
-  console.log($('#column1').children()[0])
-  let arrayKey = $('#column1').children();
-  let arrayKeyColor = [];
-  for(let i=1; i<=arrayKey.length-1; i++){
-    arrayKeyColor.push($("#"+arrayKey[i-1].id).css('background-color'));
+  console.log($('#column'+activeColumn).children()[0])
+  let arrayKey = $('#column'+activeColumn).children();
 
+  for(let i=1; i<=arrayKey.length-1; i++){
+    let keyColor = rgb2hex($("#"+arrayKey[i-1].id).css('background-color'));
+    if(keyColor != "#000000"){
+      playNote(keyColor.toUpperCase());
+    }
   }
-  if(rgb2hex(arrayKeyColor[0]).toUpperCase() == blue){
-    console.log("blue!")
-  }
+  setTimeout(function(){
+    if(activeColumn<=columnNumber){
+      activeColumn+=1;
+      playMusic();
+    }
+  },200)
 }
 
 //This function was a code found online to convert rgb() values in hex values
