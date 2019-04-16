@@ -16,11 +16,11 @@ This is the style file for this project.
   height: 20px;
   border: 1px solid black;
 }
-#keyboard .rows{
+#keyboard .columns{
   position: absolute;
 }
 
-#keyboard .rows #row20{
+#keyboard .columns #column20{
   border-right: 1px solid black;
 }
 

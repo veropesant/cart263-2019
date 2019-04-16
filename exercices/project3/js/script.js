@@ -36,6 +36,7 @@ let $colors;
 let piano;
 let columnLength = 30;
 let columnNumber = 30;
+let colorLength;
 let positionColor = 50;
 let position = 20;
 let positionLeft= 20;
@@ -43,10 +44,13 @@ let idKey = 0;
 
 $(document).ready(function(){
   console.log('ready');
-  $colors = $('.colors');
-  $keys = $('.keys');
+  colorLength = colors.length-1;
+  // $colors = $('.colors');
 
-  for(let i=0; i<=$colors.length;i++){
+
+  for(let i=0; i<=colorLength;i++){
+    let color = "<div class='colors' id='color"+(i+1)+"'></div>"
+    $('#colorSelector').append(color);
     $('#color'+(i+1)).css('left', positionColor+'px');
     $('#color'+(i+1)).css('background-color', colors[i]);
     $('#color'+(i+1)).on('click', selectColor);
@@ -54,27 +58,27 @@ $(document).ready(function(){
   }
 
   for(let j=0; j<columnNumber; j++){
-    $("#keyboard").append("<div class='rows' id='row"+(j+1)+"'></div>");
-    $("#row"+(j+1)).css('left',positionLeft+'px');
+    $("#keyboard").append("<div class='columns' id='column"+(j+1)+"'></div>");
+    $("#column"+(j+1)).css('left',positionLeft+'px');
     position=0;
 
     for(let i=0; i<columnLength;i++){
-      let $key = "<div class='keys' id='key"+(idKey+1)+"'></div>";
-      $("#row"+(j+1)).append($key);
+      let $key = "<div class='keys' id='"+(idKey+1)+"'></div>";
+      $("#column"+(j+1)).append($key);
       if(j === columnLength-1){
-        $('#key'+(idKey+1)).css('border-right', '1px solid black');
+        $('#'+(idKey+1)).css('border-right', '1px solid black');
       }else{
-        $('#key'+(idKey+1)).css('border-right', 'none');
+        $('#'+(idKey+1)).css('border-right', 'none');
       }
 
-      $('#key'+(idKey+1)).css('top', position+'px');
-      $('#key'+(idKey+1)).css('background-color', '');
-      $('#key'+(idKey+1)).on('click', selectSquare);
+      $('#'+(idKey+1)).css('top', position+'px');
+      $('#'+(idKey+1)).css('background-color', '');
+      $('#'+(idKey+1)).on('click', selectSquare);
       position += 21;
       idKey++;
     }
 
-    positionLeft += 20;
+    positionLeft += 21;
 
   }
 
@@ -115,14 +119,21 @@ $(document).ready(function(){
 })
 
 function setHoverColor(){
+  $keys = $('.keys');
   console.log(hoverColor);
   $keys.hover(function(){
-    $(this).css('border', '1px solid '+hoverColor);
-    console.log($(this).css('background'));
+    $(this).css('border', '2px solid '+hoverColor);
   });
   $keys.mouseout(function(){
+    if($(this)[0].id >= 871){
+      $(this).css('border', '');
+      $(this).css('border-right', '1px solid black');
+    }else{
 
-    $(this).css('border', '');
+      $(this).css('border', '');
+      $(this).css('border-right', 'none');
+    }
+
 
   });
 
