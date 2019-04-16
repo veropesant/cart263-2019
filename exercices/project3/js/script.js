@@ -66,10 +66,7 @@ $(document).ready(function(){
 
   //add event listener to play button
   $play = $('#play-button');
-  $play.on('click', function(){
-    playMusic();
-    playing=true;
-  });
+  $play.on('click', playMusic);
 
 
   // kick = new Pizzicato.Sound({
@@ -252,27 +249,23 @@ function playNote(colorToPlay){
 }
 
 function playMusic(){
-  if(playing == true){
-    console.log($('#column'+activeColumn).children()[0])
-    let arrayKey = $('#column'+activeColumn).children();
+  console.log($('#column'+activeColumn).children()[0])
+  let arrayKey = $('#column'+activeColumn).children();
 
-    for(let i=1; i<=arrayKey.length-1; i++){
-      let keyColor = rgb2hex($("#"+arrayKey[i-1].id).css('background-color'));
-      if(keyColor != "#000000"){
-        playNote(keyColor.toUpperCase());
-      }
+  for(let i=1; i<=arrayKey.length-1; i++){
+    let keyColor = rgb2hex($("#"+arrayKey[i-1].id).css('background-color'));
+    if(keyColor != "#000000"){
+      playNote(keyColor.toUpperCase());
     }
-    setTimeout(function(){
-      if(activeColumn<=columnNumber){
-        activeColumn+=1;
-        playMusic();
-      }else{
-        playing = false;
-        activeColumn=1;
-      }
-    },200)
   }
-
+  setTimeout(function(){
+    if(activeColumn<=columnNumber){
+      activeColumn+=1;
+      playMusic();
+    }else{
+      activeColumn=1;
+    }
+  },200)
 }
 
 //This function was a code found online to convert rgb() values in hex values
