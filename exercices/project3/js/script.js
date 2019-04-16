@@ -25,8 +25,18 @@ const ATTACK = 0.1;
 // Release time for a note (in seconds)
 const RELEASE = 0.1;
 
+//color codes
+let blue = '#6BB7EB';
+let red = '#FF5F4D';
+let green = '#57D068';
+let yellow = '#FFF275';
+let orange = '#FF8D2F';
+let purple = '#C651C7';
+let black= '#000000';
+let pink= '#FFA5FD';
+
 let hoverColor = '#6BB7EB';
-let colors = ['#6BB7EB', '#FF5F4D', '#57D068', '#FFF275', 'orange', '#C651C7', 'black','pink'];
+let colors = ['#6BB7EB', '#FF5F4D', '#57D068', '#FFF275', '#FF8D2F', '#C651C7', '#000000','#FFA5FD'];
 let hihat;
 let kick;
 let snare;
@@ -34,19 +44,65 @@ let sound;
 let $keys;
 let $colors;
 let piano;
+let $play;
 let columnLength = 30;
 let columnNumber = 30;
 let colorLength;
-let positionColor = 50;
+let positionColor = 70;
 let position = 20;
 let positionLeft= 20;
 let idKey = 0;
 
+
+
 $(document).ready(function(){
   console.log('ready');
+
+  //display the grid and controls of the game
+  initiateGame();
+
+  //add event listener to play button
+  $play = $('#play-button');
+  $play.on('click', playMusic);
+
+
+  // kick = new Pizzicato.Sound({
+  //   source: 'file',
+  //   options: {
+  //     path: 'assets/sounds/kick.wav'
+  //   }
+  // });
+  //
+  // snare = new Pizzicato.Sound({
+  //   source: 'file',
+  //   options: {
+  //     path: 'assets/sounds/snare.wav'
+  //   }
+  // });
+  //
+  // hihat = new Pizzicato.Sound({
+  //   source: 'file',
+  //   options: {
+  //     path: 'assets/sounds/hihat.wav'
+  //   }
+  // });
+
+  Synth instanceof AudioSynth; // true
+
+  var testInstance = new AudioSynth;
+  testInstance instanceof AudioSynth; // true
+
+  testInstance === Synth; // true
+
+  piano = Synth.createInstrument('piano');
+
+
+})
+
+
+function initiateGame(){
   colorLength = colors.length-1;
   // $colors = $('.colors');
-
 
   for(let i=0; i<=colorLength;i++){
     let color = "<div class='colors' id='color"+(i+1)+"'></div>"
@@ -81,42 +137,7 @@ $(document).ready(function(){
     positionLeft += 21;
 
   }
-
-
-
-
-  kick = new Pizzicato.Sound({
-    source: 'file',
-    options: {
-      path: 'assets/sounds/kick.wav'
-    }
-  });
-
-  snare = new Pizzicato.Sound({
-    source: 'file',
-    options: {
-      path: 'assets/sounds/snare.wav'
-    }
-  });
-
-  hihat = new Pizzicato.Sound({
-    source: 'file',
-    options: {
-      path: 'assets/sounds/hihat.wav'
-    }
-  });
-
-  Synth instanceof AudioSynth; // true
-
-  var testInstance = new AudioSynth;
-  testInstance instanceof AudioSynth; // true
-
-  testInstance === Synth; // true
-
-  piano = Synth.createInstrument('piano');
-
-
-})
+}
 
 function setHoverColor(){
   $keys = $('.keys');
@@ -192,30 +213,53 @@ function selectSquare(){
   }
   $(this).css('background-color', hoverColor);
   switch (hoverColor) {
-    case '#6BB7EB':
+    case blue:
     piano.play('C', 4, 2);
       break;
-    case '#FF5F4D':
+    case red:
     piano.play('D', 4, 2);
       break;
-    case '#57D068':
+    case green:
     piano.play('E', 4, 2);
       break;
-    case '#FFF275':
+    case yellow:
     piano.play('F', 4, 2);
       break;
-    case 'orange':
+    case orange:
     piano.play('G', 4, 2);
       break;
-    case '#C651C7':
+    case purple:
     piano.play('A', 4, 2);
       break;
-    case 'black':
+    case black:
     piano.play('B', 4, 2);
       break;
-    case 'pink':
+    case pink:
     piano.play('C', 5, 2);
       break;
   }
 
 }
+
+function playMusic(){
+  console.log($('#column1').children()[0])
+  let arrayKey = $('#column1').children();
+  let arrayKeyColor = [];
+  for(let i=1; i<=arrayKey.length-1; i++){
+    arrayKeyColor.push($("#"+arrayKey[i-1].id).css('background-color'));
+
+  }
+  if(rgb2hex(arrayKeyColor[0]).toUpperCase() == blue){
+    console.log("blue!")
+  }
+}
+
+//This function was a code found online to convert rgb() values in hex values
+function rgb2hex(rgb){
+ rgb = rgb.match(/^rgba?[\s+]?\([\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?/i);
+ return (rgb && rgb.length === 4) ? "#" +
+  ("0" + parseInt(rgb[1],10).toString(16)).slice(-2) +
+  ("0" + parseInt(rgb[2],10).toString(16)).slice(-2) +
+  ("0" + parseInt(rgb[3],10).toString(16)).slice(-2) : '';
+}
+//end of code found online
