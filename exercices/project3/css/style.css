@@ -36,14 +36,20 @@ This is the style file for this project.
   border-radius: 30px;
 }
 
-#colorSelector #play-button{
+#colorSelector .btn{
   position: absolute;
   width: 31px;
   height: 31px;
-  left:20px;
   transition: all .2s ease-in-out;
 }
 
-#colorSelector #play-button:hover{
+#colorSelector #play-button{
+  left:20px;
+}
+#colorSelector #empty{
+  left:70px;
+}
+
+#colorSelector .btn:hover{
   transform: scale(1.1);
 }

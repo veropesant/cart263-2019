@@ -47,10 +47,11 @@ let $keys;
 let $colors;
 let piano;
 let $play;
+let $empty;
 let columnLength = 30;
 let columnNumber = 30;
 let colorLength;
-let positionColor = 70;
+let positionColor = 120;
 let position = 20;
 let positionLeft= 20;
 let idKey = 0;
@@ -66,7 +67,9 @@ $(document).ready(function(){
 
   //add event listener to play button
   $play = $('#play-button');
+  $empty = $('#empty');
   $play.on('click', playMusic);
+  $empty.on('click', emptyGrid);
 
 
   // kick = new Pizzicato.Sound({
@@ -265,7 +268,7 @@ function playMusic(){
     }else{
       activeColumn=1;
     }
-  },200)
+  },300)
 }
 
 //This function was a code found online to convert rgb() values in hex values
@@ -277,3 +280,8 @@ function rgb2hex(rgb){
   ("0" + parseInt(rgb[3],10).toString(16)).slice(-2) : '';
 }
 //end of code found online
+
+
+function emptyGrid(){
+
+}
