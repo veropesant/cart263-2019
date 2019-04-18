@@ -116,3 +116,12 @@ This is the style file for this project.
   width: 300px;
   height: 800px;
 }
+
+.alert{
+  color:red;
+  position: absolute;
+  top: 0;
+  left: 150px;
+  font-family: Arial;
+  display: none;
+}

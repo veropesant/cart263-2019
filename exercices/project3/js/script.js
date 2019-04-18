@@ -136,8 +136,22 @@ function initiateDrawGame(){
   $play = $('#play-button');
   $empty = $('#empty');
   $eraser = $('#eraser');
-  $play.on('click', playMusic);
-  $empty.on('click', confirmEmpty);
+  $play.on('click', function(){
+    if(keysSelected>0){
+      playing = true;
+      playMusic();
+    }
+  });
+  $empty.on('click', function(){
+    if(!playing){
+      confirmEmpty();
+    }else{
+      $("#drawAlert").css("display", "block");
+      setTimeout(function(){
+        $("#drawAlert").css("display", "none");
+      },3000);
+    }
+  });
   $eraser.on('click', selectColor);
 
   for(let i=0; i<=colorLength;i++){
@@ -196,71 +210,85 @@ function setHoverColor(){
 }
 
 function selectColor(){
-  switch (this.id) {
-    case 'color1':
-    hoverColor=colors[1-1];
-    setHoverColor();
-    piano.play('C', 4, 2);
-      break;
-    case 'color2':
-    hoverColor=colors[2-1];
-    setHoverColor();
-    piano.play('D', 4, 2);
-      break;
-    case 'color3':
-    hoverColor=colors[3-1];
-    setHoverColor();
-    piano.play('E', 4, 2);
-      break;
-    case 'color4':
-    hoverColor=colors[4-1];
-    setHoverColor();
-    piano.play('F', 4, 2);
-      break;
-    case 'color5':
-    hoverColor=colors[5-1];
-    setHoverColor();
-    piano.play('G', 4, 2);
-      break;
-    case 'color6':
-    hoverColor=colors[6-1];
-    setHoverColor();
-    piano.play('A', 4, 2);
-      break;
-    case 'color7':
-    hoverColor=colors[7-1];
-    setHoverColor();
-    piano.play('B', 4, 2);
-      break;
-    case 'color8':
-    hoverColor=colors[8-1];
-    setHoverColor();
-    piano.play('C', 5, 2);
-      break;
-    case 'eraser':
-    hoverColor='#ffffff';
-    setHoverColor();
-      break;
+  if(playing){
+    $("#drawAlert").css("display", "block");
+    setTimeout(function(){
+      $("#drawAlert").css("display", "none");
+    },3000);
+  }else{
+    switch (this.id) {
+      case 'color1':
+      hoverColor=colors[1-1];
+      setHoverColor();
+      piano.play('C', 4, 2);
+        break;
+      case 'color2':
+      hoverColor=colors[2-1];
+      setHoverColor();
+      piano.play('D', 4, 2);
+        break;
+      case 'color3':
+      hoverColor=colors[3-1];
+      setHoverColor();
+      piano.play('E', 4, 2);
+        break;
+      case 'color4':
+      hoverColor=colors[4-1];
+      setHoverColor();
+      piano.play('F', 4, 2);
+        break;
+      case 'color5':
+      hoverColor=colors[5-1];
+      setHoverColor();
+      piano.play('G', 4, 2);
+        break;
+      case 'color6':
+      hoverColor=colors[6-1];
+      setHoverColor();
+      piano.play('A', 4, 2);
+        break;
+      case 'color7':
+      hoverColor=colors[7-1];
+      setHoverColor();
+      piano.play('B', 4, 2);
+        break;
+      case 'color8':
+      hoverColor=colors[8-1];
+      setHoverColor();
+      piano.play('C', 5, 2);
+        break;
+      case 'eraser':
+      hoverColor='#ffffff';
+      setHoverColor();
+        break;
+    }
   }
 }
 
 function selectSquare(){
-  currentId = this.id;
-  let currentBg = $(this).css('background-color')
-  if(!$(this).hasClass('selected')){
-      $(this).addClass('selected');
-  }
-  if(hoverColor == '#ffffff' && currentBg != emptyBg){
-    $(this).css('background-color', emptyBg);
-    if(keysSelected>0){
-      keysSelected -=1;
+  if(playing){
+    $("#drawAlert").css("display", "block");
+    setTimeout(function(){
+      $("#drawAlert").css("display", "none");
+    },3000);
+  }else{
+    currentId = this.id;
+    let currentBg = $(this).css('background-color')
+    if(!$(this).hasClass('selected')){
+        $(this).addClass('selected');
     }
-  }else if(hoverColor!='#ffffff'){
-    $(this).css('background-color', hoverColor);
-    keysSelected+=1;
-  }
+    if(hoverColor == '#ffffff' && currentBg != emptyBg){
+      $(this).css('background-color', emptyBg);
+      if(keysSelected>0){
+        keysSelected -=1;
+      }
+    }else if(hoverColor!='#ffffff'){
+      $(this).css('background-color', hoverColor);
+      keysSelected+=1;
+    }
 
-  playNote(hoverColor);
+    playNote(hoverColor);
+  }
 
 }
 
@@ -295,7 +323,7 @@ function playNote(colorToPlay){
 
 function playMusic(){
 
-  if(keysSelected>0){
+  if(keysSelected>0 && playing==true){
     console.log('play')
     let arrayKey = $('#column'+activeColumn).children();
 
@@ -308,12 +336,14 @@ function playMusic(){
         playNote(keyColor.toUpperCase());
       }
     }
+
     setTimeout(function(){
       if(activeColumn<=columnNumber){
         activeColumn+=1;
         timerLength+=20;
         playMusic();
       }else{
+        playing = false;
         activeColumn=1;
         timerLength=0;
         $('#timer').css('width', timerLength + 'px');
