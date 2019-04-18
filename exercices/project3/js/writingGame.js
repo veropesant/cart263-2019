@@ -65,7 +65,7 @@ function playMelody(){
     let currentNote= currentMelody[0];
     let currentOctave = parseInt(currentMelody[1]);
     console.log(currentMelody);
-    piano.play(currentNote, currentOctave, 2);
+    piano.play(currentNote, currentOctave, 2); //2 is the piano profile, always the same
     noteCounter++;
 
     setTimeout(function(){
