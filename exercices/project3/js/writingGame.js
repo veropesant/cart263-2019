@@ -37,8 +37,8 @@ function createMelody(){
     //finding the octave depending on the index
     //if its in the second repatition of the notes for example, the octave would be 2
     let octave;
-    let noteIndex = arrNotes.indexOf(note);
-    if(noteIndex<=6 || noteIndex >26){
+    let noteIndex = charIndex-1; //IMPORTANT the index of the note is the same as the letter
+    if(noteIndex<=6){
       octave = 1;
     }else if(noteIndex>6 && noteIndex<=13){
       octave = 2;
@@ -47,8 +47,12 @@ function createMelody(){
     }else if(noteIndex>20 && noteIndex<=26){
       octave = 4;
     }
-    console.log(note, octave, "2");
+    let noteToPlay = (note+","+octave+",2")
+    melody.push(noteToPlay.toString());
+
   }
+console.log(melody)
+
 }
 
 ////END OF SCRIPT WRITING GAME////
