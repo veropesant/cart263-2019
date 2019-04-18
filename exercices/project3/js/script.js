@@ -38,7 +38,7 @@ let pink= '#FFA5FD';
 let activeColumn=1;
 
 let hoverColor = '#6BB7EB';
-let colors = ['#6BB7EB', '#FF5F4D', '#57D068', '#FFF275', '#FF8D2F', '#C651C7', '#000000','#FFA5FD'];
+let colors = [blue, red, green, yellow, orange, purple, black, pink];
 let hihat;
 let kick;
 let snare;
@@ -48,14 +48,17 @@ let $colors;
 let piano;
 let $play;
 let $empty;
+let $eraser;
 let columnLength = 30;
 let columnNumber = 30;
 let colorLength;
-let positionColor = 120;
+let positionColor = 170;
 let position = 20;
 let positionLeft= 20;
 let idKey = 0;
 let playing = false;
+
+let currentId // of the key
 
 
 
@@ -68,8 +71,10 @@ $(document).ready(function(){
   //add event listener to play button
   $play = $('#play-button');
   $empty = $('#empty');
+  $eraser = $('#eraser');
   $play.on('click', playMusic);
   $empty.on('click', emptyGrid);
+  $eraser.on('click', selectColor);
 
 
   // kick = new Pizzicato.Sound({
@@ -93,12 +98,12 @@ $(document).ready(function(){
   //   }
   // });
 
-  Synth instanceof AudioSynth; // true
-
+  Synth instanceof AudioSynth;
+  Synth.setVolume(0.1); //volume is way too loud and creates noise at 100% volume
   var testInstance = new AudioSynth;
-  testInstance instanceof AudioSynth; // true
+  testInstance instanceof AudioSynth;
 
-  testInstance === Synth; // true
+  testInstance === Synth;
 
   piano = Synth.createInstrument('piano');
 
@@ -109,6 +114,7 @@ $(document).ready(function(){
 function initiateGame(){
   colorLength = colors.length-1;
   // $colors = $('.colors');
+
 
   for(let i=0; i<=colorLength;i++){
     let color = "<div class='colors' id='color"+(i+1)+"'></div>"
@@ -209,15 +215,24 @@ function selectColor(){
     setHoverColor();
     piano.play('C', 5, 2);
       break;
+    case 'eraser':
+    hoverColor='#ffffff';
+    setHoverColor();
+      break;
   }
 }
 
 function selectSquare(){
-  let currentId = this.id;
+  currentId = this.id;
   if(!$(this).hasClass('selected')){
       $(this).addClass('selected');
   }
-  $(this).css('background-color', hoverColor);
+  if(hoverColor == '#ffffff'){
+    $(this).css('background-color', 'rgba(0, 0, 0, 0)');
+  }else{
+    $(this).css('background-color', hoverColor);
+  }
+
   playNote(hoverColor);
 
 }
@@ -252,12 +267,12 @@ function playNote(colorToPlay){
 }
 
 function playMusic(){
-  console.log($('#column'+activeColumn).children()[0])
   let arrayKey = $('#column'+activeColumn).children();
 
   for(let i=1; i<=arrayKey.length-1; i++){
+    let colorNotconverted = $("#"+arrayKey[i-1].id).css('background-color');
     let keyColor = rgb2hex($("#"+arrayKey[i-1].id).css('background-color'));
-    if(keyColor != "#000000"){
+    if(colorNotconverted != "rgba(0, 0, 0, 0)"){
       playNote(keyColor.toUpperCase());
     }
   }
@@ -283,5 +298,25 @@ function rgb2hex(rgb){
 
 
 function emptyGrid(){
+  let currentColumn=1;
 
+  
+
+  for(let j=0; j<=columnNumber-1; j++){
+    let arrayKey = $('#column'+currentColumn).children();
+    for(let i=1; i<=arrayKey.length-1; i++){
+      let colorNotconverted = $("#"+arrayKey[i-1].id).css('background-color');
+      if(colorNotconverted != "rgba(0, 0, 0, 0)"){
+        $("#"+arrayKey[i-1].id).css('background-color', '');
+      }
+
+    }
+    currentColumn+=1;
+  }
+}
+
+
+function undo(){
+  console.log(currentId)
+  $('#'+currentId).css('background', 'rgba(0,0,0,0)');
 }
