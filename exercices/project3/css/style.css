@@ -76,6 +76,16 @@ This is the style file for this project.
   border-radius: 10px;
 }
 
+#homePage{
+  font-family: Arial;
+  width:300px;
+  height:300px;
+  position: absolute;
+  top: 20%;
+  left: 40%;
+  text-align: center;
+}
+
 #menu{
   display: flex;
   flex-flow: row-wrap;
@@ -87,4 +97,17 @@ This is the style file for this project.
   border-radius: 20px;
   padding:10px;
   margin-right: 30px;
+  margin-left: 30px;
+  cursor: pointer;
+}
+
+
+.backToMenu{
+  width:40px;
+  padding: 5px 15px 5px 15px;
+  background-color: black;
+  color: white;
+  cursor: pointer;
+  font-family: Arial;
+  border-radius: 15px;
 }

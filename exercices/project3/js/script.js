@@ -66,13 +66,17 @@ let timerLength = 20; //for progression bar while playing
 
 let $homePage; //home page before the game starts
 let $drawGamePage;
+let $writingGamePage;
 
 
 $(document).ready(function(){
   console.log('ready');
   $homePage = $('#homePage').css('display', 'block');
   $drawGamePage = $('#drawingGame').css('display', 'none');
-  $('#btnDraw').on('click', initiateGame);
+  $writingGamePage = $('#writingGame').css('display', 'none');
+  $('#btnDraw').on('click', initiateDrawGame);
+  $('#btnWrite').on('click', initiateWritingGame);
+  $('.backToMenu').on('click', confirmBack);
 
   // kick = new Pizzicato.Sound({
   //   source: 'file',
@@ -107,8 +111,20 @@ $(document).ready(function(){
 
 })
 
+function confirmBack(){
+  let youSure = confirm('If you go back to the menu your art will be lost...');
+  if(youSure == true){
+    location.reload();
+  }
+}
 
-function initiateGame(){
+////////////START OF DRAWING GAME SCRIPT////////////////
+///////////////////////////////////////////////////////
+///////////////////////////////////////////////////////
+//////////////////////////////////////////////////////
+/////////////////////////////////////////////////////
+
+function initiateDrawGame(){
   $homePage = $('#homePage').css('display', 'none');
   $drawGamePage = $('#drawingGame').css('display', 'block');
 
@@ -348,3 +364,19 @@ function undo(){
   console.log(currentId)
   $('#'+currentId).css('background', 'rgba(0,0,0,0)');
 }
+
+////END OF SCRIPT DRAWING GAME////
+
+
+////////////START OF WRITING GAME SCRIPT////////////////
+///////////////////////////////////////////////////////
+///////////////////////////////////////////////////////
+//////////////////////////////////////////////////////
+/////////////////////////////////////////////////////
+
+function initiateWritingGame(){
+  $homePage = $('#homePage').css('display', 'none');
+  $writingGamePage = $('#writingGame').css('display', 'block');
+}
+
+////END OF SCRIPT WRITING GAME////
