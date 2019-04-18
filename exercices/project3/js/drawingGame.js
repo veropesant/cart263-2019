@@ -244,7 +244,7 @@ function playNote(colorToPlay){
 function playMusic(){
 
   if(keysSelected>0 && playing==true){
-    console.log('play')
+
     let arrayKey = $('#column'+activeColumn).children();
 
     $('#timer').css('width', timerLength + 'px');
@@ -311,7 +311,6 @@ function emptyGrid(){
 
 
 function undo(){
-  console.log(currentId)
   $('#'+currentId).css('background', 'rgba(0,0,0,0)');
 }
 

@@ -1,10 +1,11 @@
 let $btnPlay;
 let text;
 
-let arrLetters = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", " ", ",", ".", "!", "?", ";"];
-let arrNotes = ["C", "D", "E", "F", "G", "A", "B", "C", "D", "E", "F", "G", "A", "B", "C", "D", "E", "F", "G", "A", "B", "C", "D", "E", "F", "G", "A", "B", "C", "D", "E", "F"];
+let arrLetters = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", " ", ",", ".", "!", "?", ";", "-", "'"];
+let arrNotes = ["C", "D", "E", "F", "G", "A", "B", "C", "D", "E", "F", "G", "A", "B", "C", "D", "E", "F", "G", "A", "B", "C", "D", "E", "F", "G", "A", "B", "C", "D", "E", "F", "G", "A"];
 
 let melody = [];
+let noteCounter = 0;
 
 ////////////START OF WRITING GAME SCRIPT////////////////
 ///////////////////////////////////////////////////////
@@ -17,6 +18,8 @@ function initiateWritingGame(){
   $('#writingGame').css('display', 'block');
   let $inputText = '<textarea rows="4" cols="50" id="text">';
   $('#writingGame').append($inputText);
+
+
   $btnPlay = $("#play");
   $btnPlay.on("click", function(){
     play = true;
@@ -38,7 +41,7 @@ function createMelody(){
     //if its in the second repatition of the notes for example, the octave would be 2
     let octave;
     let noteIndex = charIndex-1; //IMPORTANT the index of the note is the same as the letter
-    if(noteIndex<=6){
+    if(noteIndex<=6 || noteIndex > 26){
       octave = 1;
     }else if(noteIndex>6 && noteIndex<=13){
       octave = 2;
@@ -47,12 +50,40 @@ function createMelody(){
     }else if(noteIndex>20 && noteIndex<=26){
       octave = 4;
     }
-    let noteToPlay = (note+","+octave+",2")
-    melody.push(noteToPlay.toString());
+    let noteToPlay = (note+octave);
+    melody.push(noteToPlay);
 
   }
-console.log(melody)
+  console.log(melody);
+  playMelody();
+}
 
+function playMelody(){
+  $("#text").prop('disabled', true); // the player can't write while the clip is playing
+  if(melody.length > 0){
+    let currentMelody = melody[noteCounter].split('');
+    let currentNote= currentMelody[0];
+    let currentOctave = parseInt(currentMelody[1]);
+    console.log(currentMelody);
+    piano.play(currentNote, currentOctave, 2);
+    noteCounter++;
+
+    setTimeout(function(){
+      if(noteCounter < melody.length){
+        playMelody();
+      }else{
+        noteCounter = 0;
+        melody=[];
+        $("#text").prop('disabled', false);
+      }
+
+    },300);
+  }else{
+    $('#alertWrite').css("display", 'block');
+    setTimeout(function(){
+      $('#alertWrite').css("display", 'none');
+    },3000)
+  }
 }
 
 ////END OF SCRIPT WRITING GAME////
