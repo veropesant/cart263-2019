@@ -29,12 +29,29 @@
 
 <body>
   <!-- HTML would go here if needed. -->
-  <section id='keyboard'></section>
-  <section id='colorSelector'>
-    <img src="assets/images/play-button.png" id="play-button" class="btn">
-    <img src="assets/images/cancel.png" id="empty" class="btn">
-    <img src="assets/images/eraser.png" id="eraser" class="btn">
+  <section id='homePage'>
+    <p>Welcome! Choose your prefered game:</p>
+      <div id="menu">
+        <div id="btnDraw" class="btnMenu">
+          Draw music
+        </div>
+        <div id="btnWrite" class="btnMenu">
+          Write music
+        </div>
+      </div>
   </section>
+
+  <section id='drawingGame'>
+    <section id='keyboard'></section>
+    <section id='colorSelector'>
+      <img src="assets/images/play-button.png" id="play-button" class="btn">
+      <img src="assets/images/cancel.png" id="empty" class="btn">
+      <img src="assets/images/eraser.png" id="eraser" class="btn">
+    </section>
+    <div id="timer"></div>
+  </section>
+
+
 
 </body>
 

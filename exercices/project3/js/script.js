@@ -59,22 +59,22 @@ let idKey = 0;
 let playing = false;
 
 let currentId // of the key
+let keysSelected = 0; //number of colored keys
+let emptyBg = 'rgba(0, 0, 0, 0)';
+
+let timerLength = 20; //for progression bar while playing
 
 
 
 $(document).ready(function(){
   console.log('ready');
 
+
+
   //display the grid and controls of the game
   initiateGame();
 
-  //add event listener to play button
-  $play = $('#play-button');
-  $empty = $('#empty');
-  $eraser = $('#eraser');
-  $play.on('click', playMusic);
-  $empty.on('click', confirmEmpty);
-  $eraser.on('click', selectColor);
+
 
 
   // kick = new Pizzicato.Sound({
@@ -115,6 +115,13 @@ function initiateGame(){
   colorLength = colors.length-1;
   // $colors = $('.colors');
 
+  //add event listener to buttons
+  $play = $('#play-button');
+  $empty = $('#empty');
+  $eraser = $('#eraser');
+  $play.on('click', playMusic);
+  $empty.on('click', confirmEmpty);
+  $eraser.on('click', selectColor);
 
   for(let i=0; i<=colorLength;i++){
     let color = "<div class='colors' id='color"+(i+1)+"'></div>"
@@ -153,7 +160,6 @@ function initiateGame(){
 
 function setHoverColor(){
   $keys = $('.keys');
-  console.log(hoverColor);
   $keys.hover(function(){
     $(this).css('border', '2px solid '+hoverColor);
   });
@@ -173,7 +179,6 @@ function setHoverColor(){
 }
 
 function selectColor(){
-  console.log(this);
   switch (this.id) {
     case 'color1':
     hoverColor=colors[1-1];
@@ -224,13 +229,18 @@ function selectColor(){
 
 function selectSquare(){
   currentId = this.id;
+  let currentBg = $(this).css('background-color')
   if(!$(this).hasClass('selected')){
       $(this).addClass('selected');
   }
-  if(hoverColor == '#ffffff'){
-    $(this).css('background-color', 'rgba(0, 0, 0, 0)');
-  }else{
+  if(hoverColor == '#ffffff' && currentBg != emptyBg){
+    $(this).css('background-color', emptyBg);
+    if(keysSelected>0){
+      keysSelected -=1;
+    }
+  }else if(hoverColor!='#ffffff'){
     $(this).css('background-color', hoverColor);
+    keysSelected+=1;
   }
 
   playNote(hoverColor);
@@ -267,23 +277,33 @@ function playNote(colorToPlay){
 }
 
 function playMusic(){
-  let arrayKey = $('#column'+activeColumn).children();
 
-  for(let i=1; i<=arrayKey.length-1; i++){
-    let colorNotconverted = $("#"+arrayKey[i-1].id).css('background-color');
-    let keyColor = rgb2hex($("#"+arrayKey[i-1].id).css('background-color'));
-    if(colorNotconverted != "rgba(0, 0, 0, 0)"){
-      playNote(keyColor.toUpperCase());
+  if(keysSelected>0){
+    console.log('play')
+    let arrayKey = $('#column'+activeColumn).children();
+
+    $('#timer').css('width', timerLength + 'px');
+
+    for(let i=1; i<=arrayKey.length-1; i++){
+      let colorNotconverted = $("#"+arrayKey[i-1].id).css('background-color');
+      let keyColor = rgb2hex($("#"+arrayKey[i-1].id).css('background-color'));
+      if(colorNotconverted != "rgba(0, 0, 0, 0)"){
+        playNote(keyColor.toUpperCase());
+      }
     }
+    setTimeout(function(){
+      if(activeColumn<=columnNumber){
+        activeColumn+=1;
+        timerLength+=20;
+        playMusic();
+      }else{
+        activeColumn=1;
+        timerLength=0;
+        $('#timer').css('width', timerLength + 'px');
+
+      }
+    },300)
   }
-  setTimeout(function(){
-    if(activeColumn<=columnNumber){
-      activeColumn+=1;
-      playMusic();
-    }else{
-      activeColumn=1;
-    }
-  },300)
 }
 
 //This function was a code found online to convert rgb() values in hex values
@@ -298,17 +318,17 @@ function rgb2hex(rgb){
 
 
 function confirmEmpty(){
-  let confirmation = confirm('Do you really want to erase your drawing?');
-  if( confirmation == true){
-    emptyGrid();
+  if(keysSelected>0){
+    let confirmation = confirm('Do you really want to erase your drawing?');
+    if( confirmation == true){
+      emptyGrid();
+    }
   }
 }
 
 function emptyGrid(){
   let currentColumn=1;
-
-
-
+  keysSelected=0;
   for(let j=0; j<=columnNumber-1; j++){
     let arrayKey = $('#column'+currentColumn).children();
     for(let i=1; i<=arrayKey.length-1; i++){

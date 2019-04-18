@@ -64,3 +64,27 @@ This is the style file for this project.
 #colorSelector .colors:hover{
   transform: scale(1.1);
 }
+
+#timer{
+  position: absolute;
+  width:0px;
+  height:10px;
+  background-color: red;
+  left:28px;
+  top: 90px;
+  transition: all .2s ease-in-out;
+  border-radius: 10px;
+}
+
+#menu{
+  display: flex;
+  flex-flow: row-wrap;
+}
+
+.btnMenu{
+  background-color: black;
+  color: white;
+  border-radius: 20px;
+  padding:10px;
+  margin-right: 30px;
+}
