@@ -1,3 +1,43 @@
+//color codes
+let blue = '#6BB7EB';
+let red = '#FF5F4D';
+let green = '#57D068';
+let yellow = '#FFF275';
+let orange = '#FF8D2F';
+let purple = '#C651C7';
+let black= '#000000';
+let pink= '#FFA5FD';
+
+let activeColumn=1;
+
+let hoverColor = '#6BB7EB';
+let colors = [blue, red, green, yellow, orange, purple, black, pink];
+let hihat;
+let kick;
+let snare;
+let sound;
+let $keys;
+let $colors;
+let piano;
+let $play;
+let $empty;
+let $eraser;
+let columnLength = 30;
+let columnNumber = 30;
+let colorLength;
+let positionColor = 170;
+let position = 20;
+let positionLeft= 20;
+let idKey = 0;
+let playing = false;
+
+let currentId // of the key
+let keysSelected = 0; //number of colored keys
+let emptyBg = 'rgba(0, 0, 0, 0)';
+
+let timerLength = 20; //for progression bar while playing
+
+
 ////////////START OF DRAWING GAME SCRIPT////////////////
 ///////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////

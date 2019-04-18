@@ -42,8 +42,16 @@ This is the style file for this project.
   height: 31px;
   transition: all .2s ease-in-out;
 }
+#writingGame .btn{
+  position: absolute;
+  top: 45px;
+  margin-left: 250px;
+  width: 31px;
+  height: 31px;
+  transition: all .2s ease-in-out;
+}
 
-#colorSelector #play-button{
+#colorSelector #play-button, #writingGame #play{
   left:20px;
 }
 #colorSelector #empty{
@@ -53,7 +61,7 @@ This is the style file for this project.
   left:120px;
 }
 
-#colorSelector .btn:hover{
+#colorSelector .btn:hover, #writingGame .btn:hover{
   transform: scale(1.1);
 }
 
