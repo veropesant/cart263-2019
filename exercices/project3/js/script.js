@@ -73,7 +73,7 @@ $(document).ready(function(){
   $empty = $('#empty');
   $eraser = $('#eraser');
   $play.on('click', playMusic);
-  $empty.on('click', emptyGrid);
+  $empty.on('click', confirmEmpty);
   $eraser.on('click', selectColor);
 
 
@@ -297,10 +297,17 @@ function rgb2hex(rgb){
 //end of code found online
 
 
+function confirmEmpty(){
+  let confirmation = confirm('Do you really want to erase your drawing?');
+  if( confirmation == true){
+    emptyGrid();
+  }
+}
+
 function emptyGrid(){
   let currentColumn=1;
 
-  
+
 
   for(let j=0; j<=columnNumber-1; j++){
     let arrayKey = $('#column'+currentColumn).children();
