@@ -64,18 +64,15 @@ let emptyBg = 'rgba(0, 0, 0, 0)';
 
 let timerLength = 20; //for progression bar while playing
 
+let $homePage; //home page before the game starts
+let $drawGamePage;
 
 
 $(document).ready(function(){
   console.log('ready');
-
-
-
-  //display the grid and controls of the game
-  initiateGame();
-
-
-
+  $homePage = $('#homePage').css('display', 'block');
+  $drawGamePage = $('#drawingGame').css('display', 'none');
+  $('#btnDraw').on('click', initiateGame);
 
   // kick = new Pizzicato.Sound({
   //   source: 'file',
@@ -112,6 +109,10 @@ $(document).ready(function(){
 
 
 function initiateGame(){
+  $homePage = $('#homePage').css('display', 'none');
+  $drawGamePage = $('#drawingGame').css('display', 'block');
+
+
   colorLength = colors.length-1;
   // $colors = $('.colors');
 
