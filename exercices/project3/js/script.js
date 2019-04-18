@@ -125,8 +125,8 @@ function confirmBack(){
 /////////////////////////////////////////////////////
 
 function initiateDrawGame(){
-  $homePage = $('#homePage').css('display', 'none');
-  $drawGamePage = $('#drawingGame').css('display', 'block');
+  $('#homePage').css('display', 'none');
+  $('#drawingGame').css('display', 'block');
 
 
   colorLength = colors.length-1;
@@ -375,8 +375,13 @@ function undo(){
 /////////////////////////////////////////////////////
 
 function initiateWritingGame(){
-  $homePage = $('#homePage').css('display', 'none');
-  $writingGamePage = $('#writingGame').css('display', 'block');
+  $('#homePage').css('display', 'none');
+  $('#writingGame').css('display', 'block');
+  let $inputText = '<textarea rows="4" cols="50" id="text">';
+
+  $('#writingGame').append($inputText);
+
+
 }
 
 ////END OF SCRIPT WRITING GAME////
