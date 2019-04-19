@@ -31,6 +31,20 @@ let $homePage; //home page before the game starts
 let $drawGamePage;
 let $writingGamePage;
 
+//instruments
+let $instrumentsDraw;
+let $instrumentsWrite;
+let piano;
+let acoustic;
+let organ;
+let edm;
+let currentInstrumentId;
+let currentInstrument;
+
+//which game is being played
+let write = false;
+let draw = false;
+
 
 $(document).ready(function(){
 
@@ -38,8 +52,13 @@ $(document).ready(function(){
   $homePage = $('#homePage').css('display', 'block');
   $drawGamePage = $('#drawingGame').css('display', 'none');
   $writingGamePage = $('#writingGame').css('display', 'none');
-  $('#btnDraw').on('click', initiateDrawGame);
-  $('#btnWrite').on('click', initiateWritingGame);
+  initiateInstruments();
+  $('#btnDraw').on('click', function(){
+    initiateDrawGame();
+  });
+  $('#btnWrite').on('click', function(){
+    initiateWritingGame();
+  });
   $('.backToMenu').on('click', confirmBack);
 
   // kick = new Pizzicato.Sound({
@@ -63,6 +82,7 @@ $(document).ready(function(){
   //   }
   // });
 
+  //Code and library found online
   Synth instanceof AudioSynth;
   Synth.setVolume(0.1); //volume is way too loud and creates noise at 100% volume
   var testInstance = new AudioSynth;
@@ -71,7 +91,13 @@ $(document).ready(function(){
   testInstance === Synth;
 
   piano = Synth.createInstrument('piano');
+  acoustic = Synth.createInstrument('acoustic');
+  organ = Synth.createInstrument('organ');
+  edm = Synth.createInstrument('edm');
+  //end of code found online
 
+  //sets the default instrument to piano
+  currentInstrument = piano;
 
 })
 
@@ -79,5 +105,38 @@ function confirmBack(){
   let youSure = confirm('If you go back to the menu your art will be lost...');
   if(youSure == true){
     location.reload();
+  }
+}
+
+function initiateInstruments(){
+  //eventListener on instrument buttons
+
+
+  $instrumentsDraw = $('#instrumentChoiceDraw .instruments');
+
+  $instrumentsWrite = $('#instrumentChoiceWrite .instruments');
+
+
+  for(let i=0; i<=$instrumentsDraw.length-1; i++){
+    let currentId = $instrumentsDraw[i].id;
+    $('#'+currentId).on('click', setInstrument);
+  }
+
+  for(let i=0; i<=$instrumentsWrite.length-1; i++){
+    let currentId = $instrumentsWrite[i].id;
+    $('#'+currentId).on('click', setInstrument);
+  }
+
+}
+function setInstrument(){
+  currentInstrumentId = $(this)[0].id;
+  if(currentInstrumentId.includes('piano')){
+    currentInstrument=piano;
+  }else if(currentInstrumentId.includes('acoustic')){
+    currentInstrument=acoustic;
+  }else if(currentInstrumentId.includes('organ')){
+    currentInstrument=organ;
+  }else if(currentInstrumentId.includes('edm')){
+    currentInstrument=edm;
   }
 }

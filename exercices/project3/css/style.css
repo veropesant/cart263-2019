@@ -3,6 +3,10 @@
 This is the style file for this project.
 
 **********************************************/
+*{
+  font-family: Arial;
+}
+
 #keyboard{
   position: relative;
   width:100%;
@@ -121,6 +125,8 @@ This is the style file for this project.
 }
 
 #text{
+  position: absolute;
+  top:120px;
   width: 300px;
   height: 800px;
 }
@@ -132,4 +138,45 @@ This is the style file for this project.
   left: 150px;
   font-family: Arial;
   display: none;
+}
+
+#progression{
+  position: absolute;
+  width:0px;
+  height:10px;
+  background-color: purple;
+  left:10px;
+  top: 100px;
+  transition: all .2s ease-in-out;
+  border-radius: 10px;
+}
+
+
+#instrumentChoiceDraw{
+  display: flex;
+  flex-flow: column;
+  position: absolute;
+  left: 700px;
+  top:130px;
+}
+
+#instrumentChoiceWrite{
+  display: flex;
+  flex-flow: column;
+  position: absolute;
+  left: 350px;
+  top:110px;
+}
+.instruments{
+  padding: 5px 15px 5px 15px;
+  background-color: black;
+  color:white;
+  margin-top:10px;
+  text-align: center;
+  border-radius: 50px;
+  transition: all ease-in-out 0.2s;
+}
+
+.instruments:hover{
+  transform: scale(1.05);
 }

@@ -6,6 +6,8 @@ let arrNotes = ["C", "D", "E", "F", "G", "A", "B", "C", "D", "E", "F", "G", "A",
 
 let melody = [];
 let noteCounter = 0;
+let progressionLength=0;
+
 
 ////////////START OF WRITING GAME SCRIPT////////////////
 ///////////////////////////////////////////////////////
@@ -59,22 +61,29 @@ function createMelody(){
 }
 
 function playMelody(){
-  $("#text").prop('disabled', true); // the player can't write while the clip is playing
+
   if(melody.length > 0){
+    let lengthIncrement = 300/melody.length;
+    $("#text").prop('disabled', true); // the player can't write while the clip is playing
+    $('#progression').css('width', progressionLength);
     let currentMelody = melody[noteCounter].split('');
     let currentNote= currentMelody[0];
     let currentOctave = parseInt(currentMelody[1]);
     console.log(currentMelody);
-    piano.play(currentNote, currentOctave, 2); //2 is the piano profile, always the same
+    currentInstrument.play(currentNote, currentOctave, 2); //2 is the piano profile, always the same
     noteCounter++;
 
     setTimeout(function(){
       if(noteCounter < melody.length){
         playMelody();
+        progressionLength+=lengthIncrement;
       }else{
         noteCounter = 0;
         melody=[];
         $("#text").prop('disabled', false);
+        lengthIncrement = 0;
+        progressionLength = 0;
+        $('#progression').css('width', progressionLength);
       }
 
     },300);

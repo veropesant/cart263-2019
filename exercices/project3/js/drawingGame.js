@@ -18,7 +18,6 @@ let snare;
 let sound;
 let $keys;
 let $colors;
-let piano;
 let $play;
 let $empty;
 let $eraser;
@@ -45,6 +44,8 @@ let timerLength = 20; //for progression bar while playing
 /////////////////////////////////////////////////////
 
 function initiateDrawGame(){
+  draw = true;
+  write = false;
   $('#homePage').css('display', 'none');
   $('#drawingGame').css('display', 'block');
 
@@ -140,42 +141,42 @@ function selectColor(){
       case 'color1':
       hoverColor=colors[1-1];
       setHoverColor();
-      piano.play('C', 4, 2);
+      currentInstrument.play('C', 4, 2);
         break;
       case 'color2':
       hoverColor=colors[2-1];
       setHoverColor();
-      piano.play('D', 4, 2);
+      currentInstrument.play('D', 4, 2);
         break;
       case 'color3':
       hoverColor=colors[3-1];
       setHoverColor();
-      piano.play('E', 4, 2);
+      currentInstrument.play('E', 4, 2);
         break;
       case 'color4':
       hoverColor=colors[4-1];
       setHoverColor();
-      piano.play('F', 4, 2);
+      currentInstrument.play('F', 4, 2);
         break;
       case 'color5':
       hoverColor=colors[5-1];
       setHoverColor();
-      piano.play('G', 4, 2);
+      currentInstrument.play('G', 4, 2);
         break;
       case 'color6':
       hoverColor=colors[6-1];
       setHoverColor();
-      piano.play('A', 4, 2);
+      currentInstrument.play('A', 4, 2);
         break;
       case 'color7':
       hoverColor=colors[7-1];
       setHoverColor();
-      piano.play('B', 4, 2);
+      currentInstrument.play('B', 4, 2);
         break;
       case 'color8':
       hoverColor=colors[8-1];
       setHoverColor();
-      piano.play('C', 5, 2);
+      currentInstrument.play('C', 5, 2);
         break;
       case 'eraser':
       hoverColor='#ffffff';
@@ -215,28 +216,28 @@ function selectSquare(){
 function playNote(colorToPlay){
   switch (colorToPlay) {
     case blue:
-    piano.play('C', 4, 2);
+    currentInstrument.play('C', 4, 2);
       break;
     case red:
-    piano.play('D', 4, 2);
+    currentInstrument.play('D', 4, 2);
       break;
     case green:
-    piano.play('E', 4, 2);
+    currentInstrument.play('E', 4, 2);
       break;
     case yellow:
-    piano.play('F', 4, 2);
+    currentInstrument.play('F', 4, 2);
       break;
     case orange:
-    piano.play('G', 4, 2);
+    currentInstrument.play('G', 4, 2);
       break;
     case purple:
-    piano.play('A', 4, 2);
+    currentInstrument.play('A', 4, 2);
       break;
     case black:
-    piano.play('B', 4, 2);
+    currentInstrument.play('B', 4, 2);
       break;
     case pink:
-    piano.play('C', 5, 2);
+    currentInstrument.play('C', 5, 2);
       break;
   }
 }
