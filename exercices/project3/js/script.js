@@ -89,7 +89,7 @@ $(document).ready(function(){
   testInstance instanceof AudioSynth;
 
   testInstance === Synth;
-
+  Synth.setSampleRate(10000);
   piano = Synth.createInstrument('piano');
   acoustic = Synth.createInstrument('acoustic');
   organ = Synth.createInstrument('organ');

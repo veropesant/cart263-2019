@@ -11,6 +11,7 @@ This is the style file for this project.
   position: relative;
   width:100%;
   top:100px;
+  left:20px;
 }
 #keyboard .keys{
   position: absolute;
@@ -24,6 +25,51 @@ This is the style file for this project.
 
 #keyboard .columns #column20{
   border-right: 1px solid black;
+}
+
+.octaves{
+  height: 105px;
+  width: 10px;
+  position: absolute;
+  left: 30px;
+  display: block;
+  background-color: red;
+  border-bottom: 3px solid black;
+}
+
+.title{
+  position: absolute;
+  left:0;
+  top: 57%;
+  transform: rotate(270deg);
+  transform-origin: top left;
+  margin-left: 0;
+  color: black;
+  z-index: 1;
+}
+#oct1{
+  top: 135px;
+  background-color: #494A49;
+}
+#oct2{
+  top: 240px;
+  background-color: #7E807E;
+}
+#oct3{
+  top: 345px;
+  background-color: #BDBFBD;
+}
+#oct4{
+  top: 450px;
+  background-color: #DCDCE6;
+}
+#oct5{
+  top: 555px;
+  background-color: #E3E6E3;
+}
+#oct6{
+  top: 660px;
+  background-color: #EFF1FF;
 }
 
 #colorSelector{

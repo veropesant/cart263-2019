@@ -36,6 +36,14 @@ let emptyBg = 'rgba(0, 0, 0, 0)';
 
 let timerLength = 20; //for progression bar while playing
 
+//arrays to store the different octaves
+let octave1 = [];
+let octave2 = [];
+let octave3 = [];
+let octave4 = [];
+let octave5 = [];
+let octave6 = [];
+
 
 ////////////START OF DRAWING GAME SCRIPT////////////////
 ///////////////////////////////////////////////////////
@@ -44,8 +52,7 @@ let timerLength = 20; //for progression bar while playing
 /////////////////////////////////////////////////////
 
 function initiateDrawGame(){
-  draw = true;
-  write = false;
+
   $('#homePage').css('display', 'none');
   $('#drawingGame').css('display', 'block');
 
@@ -108,6 +115,8 @@ function initiateDrawGame(){
     positionLeft += 21;
 
   }
+  //creates the octaves of the grid
+  octaves();
 }
 
 function setHoverColor(){
@@ -208,36 +217,36 @@ function selectSquare(){
       keysSelected+=1;
     }
 
-    playNote(hoverColor);
+    // playNote(hoverColor, 4);
   }
 
 }
 
-function playNote(colorToPlay){
+function playNote(colorToPlay, octave){
   switch (colorToPlay) {
     case blue:
-    currentInstrument.play('C', 4, 2);
+    currentInstrument.play('C', octave, 2);
       break;
     case red:
-    currentInstrument.play('D', 4, 2);
+    currentInstrument.play('D', octave, 2);
       break;
     case green:
-    currentInstrument.play('E', 4, 2);
+    currentInstrument.play('E', octave, 2);
       break;
     case yellow:
-    currentInstrument.play('F', 4, 2);
+    currentInstrument.play('F', octave, 2);
       break;
     case orange:
-    currentInstrument.play('G', 4, 2);
+    currentInstrument.play('G', octave, 2);
       break;
     case purple:
-    currentInstrument.play('A', 4, 2);
+    currentInstrument.play('A', octave, 2);
       break;
     case black:
-    currentInstrument.play('B', 4, 2);
+    currentInstrument.play('B', octave, 2);
       break;
     case pink:
-    currentInstrument.play('C', 5, 2);
+    currentInstrument.play('C', octave+1, 2);
       break;
   }
 }
@@ -250,11 +259,28 @@ function playMusic(){
 
     $('#timer').css('width', timerLength + 'px');
 
-    for(let i=1; i<=arrayKey.length-1; i++){
+    for(let i=1; i<=arrayKey.length; i++){
+      let currentOctave;
       let colorNotconverted = $("#"+arrayKey[i-1].id).css('background-color');
+      let colorId = $("#"+arrayKey[i-1].id)[0].id;
+
       let keyColor = rgb2hex($("#"+arrayKey[i-1].id).css('background-color'));
       if(colorNotconverted != "rgba(0, 0, 0, 0)"){
-        playNote(keyColor.toUpperCase());
+        if(octave1.indexOf(colorId) != -1){
+          currentOctave = 1;
+        }else if(octave2.indexOf(colorId) != -1){
+          currentOctave = 2;
+        }else if(octave3.indexOf(colorId) != -1){
+          currentOctave = 3;
+        }else if(octave4.indexOf(colorId) != -1){
+          currentOctave = 4;
+        }else if(octave5.indexOf(colorId) != -1){
+          currentOctave = 5;
+        }else if(octave6.indexOf(colorId) != -1){
+          currentOctave = 6;
+        }
+
+        playNote(keyColor.toUpperCase(), currentOctave);
       }
     }
 
@@ -299,7 +325,7 @@ function emptyGrid(){
   keysSelected=0;
   for(let j=0; j<=columnNumber-1; j++){
     let arrayKey = $('#column'+currentColumn).children();
-    for(let i=1; i<=arrayKey.length-1; i++){
+    for(let i=1; i<=arrayKey.length; i++){
       let colorNotconverted = $("#"+arrayKey[i-1].id).css('background-color');
       if(colorNotconverted != "rgba(0, 0, 0, 0)"){
         $("#"+arrayKey[i-1].id).css('background-color', '');
@@ -313,6 +339,49 @@ function emptyGrid(){
 
 function undo(){
   $('#'+currentId).css('background', 'rgba(0,0,0,0)');
+}
+
+function octaves(){
+  for(let i=0; i<= columnNumber; i++){
+     let currentChildren = $('#column'+i).children().slice(0,5);
+     for(let j=0; j <= currentChildren.length-1; j++){
+       octave1.push(currentChildren[j].id);
+     }
+
+  }
+  for(let i=0; i<= columnNumber; i++){
+     let currentChildren = $('#column'+i).children().slice(5,10);
+     for(let j=0; j <= currentChildren.length-1; j++){
+
+       octave2.push(currentChildren[j].id);
+
+     }
+
+  }
+  for(let i=0; i<= columnNumber; i++){
+     let currentChildren = $('#column'+i).children().slice(10,15);
+     for(let j=0; j <= currentChildren.length-1; j++){
+       octave3.push(currentChildren[j].id);
+     }
+  }
+  for(let i=0; i<= columnNumber; i++){
+     let currentChildren = $('#column'+i).children().slice(15,20);
+     for(let j=0; j <= currentChildren.length-1; j++){
+       octave4.push(currentChildren[j].id);
+     }
+  }
+  for(let i=0; i<= columnNumber; i++){
+     let currentChildren = $('#column'+i).children().slice(20,25);
+     for(let j=0; j <= currentChildren.length-1; j++){
+       octave5.push(currentChildren[j].id);
+     }
+  }
+  for(let i=0; i<= columnNumber; i++){
+     let currentChildren = $('#column'+i).children().slice(25,30);
+     for(let j=0; j <= currentChildren.length-1; j++){
+       octave6.push(currentChildren[j].id);
+     }
+  }
 }
 
 ////END OF SCRIPT DRAWING GAME////
