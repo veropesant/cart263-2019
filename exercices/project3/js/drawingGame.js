@@ -10,7 +10,9 @@ let pink= '#FFA5FD';
 
 let activeColumn=1;
 
+//default hover color
 let hoverColor = '#6BB7EB';
+//array for the colors
 let colors = [blue, red, green, yellow, orange, purple, black, pink];
 let sound;
 let $keys;
@@ -29,11 +31,11 @@ let playing = false;
 
 let currentId // of the key
 let keysSelected = 0; //number of colored keys
-let emptyBg = 'rgba(0, 0, 0, 0)';
+let emptyBg = 'rgba(0, 0, 0, 0)'; //when a key has no background color
 
 let timerLength = 20; //for progression bar while playing
 
-//arrays to store the different octaves
+//arrays to store the different keys corresponding to different octaves
 let octave1 = [];
 let octave2 = [];
 let octave3 = [];
@@ -49,11 +51,11 @@ let octave6 = [];
 /////////////////////////////////////////////////////
 
 function initiateDrawGame(){
-
+  //hides the home page and display the drawing game
   $('#homePage').css('display', 'none');
   $('#drawingGame').css('display', 'block');
 
-
+  //get the number of colors
   colorLength = colors.length-1;
   // $colors = $('.colors');
 
@@ -61,54 +63,77 @@ function initiateDrawGame(){
   $play = $('#play-button');
   $empty = $('#empty');
   $eraser = $('#eraser');
+  //event listener on play button
   $play.on('click', function(){
+    //only if the grid is NOT empty, allow to play the music
     if(keysSelected>0){
       playing = true;
       playMusic();
     }
   });
+  //event listener on empty button
   $empty.on('click', function(){
+    //only allow to empty the grid if the audio clip is not currently playing
     if(!playing){
       confirmEmpty();
     }else{
+      //if the clip is indeed playing, display the alert that says you
+      //cannot use this function right now
       $("#drawAlert").css("display", "block");
+      //remove the alert after 3 seconds
       setTimeout(function(){
         $("#drawAlert").css("display", "none");
       },3000);
     }
   });
+
+  //event listener on the eraser button (it behaves like a color)
   $eraser.on('click', selectColor);
 
+  //according to the number of colors...
   for(let i=0; i<=colorLength;i++){
+    //...creates one div per color in the color selector section
     let color = "<div class='colors' id='color"+(i+1)+"'></div>"
     $('#colorSelector').append(color);
+    //sets the position and background-color according to the color
     $('#color'+(i+1)).css('left', positionColor+'px');
     $('#color'+(i+1)).css('background-color', colors[i]);
+    //event listener on each color
     $('#color'+(i+1)).on('click', selectColor);
+    //augment the position for the next color
     positionColor += 50;
   }
 
+  //displaying the grid
   for(let j=0; j<columnNumber; j++){
+    //first level of the loop creates the different columns
     $("#keyboard").append("<div class='columns' id='column"+(j+1)+"'></div>");
+    //positions them right next to one another
     $("#column"+(j+1)).css('left',positionLeft+'px');
     position=0;
 
     for(let i=0; i<columnLength;i++){
+      //the second level, according to the predetermined variable (30), display the right
+      //number of key in each column
       let $key = "<div class='keys' id='"+(idKey+1)+"'></div>";
       $("#column"+(j+1)).append($key);
+      //puts a border right only on the keys of the last column
       if(j === columnLength-1){
         $('#'+(idKey+1)).css('border-right', '1px solid black');
       }else{
         $('#'+(idKey+1)).css('border-right', 'none');
       }
-
+      //positions the current key and set the background color to nothing
       $('#'+(idKey+1)).css('top', position+'px');
       $('#'+(idKey+1)).css('background-color', '');
+      //adds event listener on each key
       $('#'+(idKey+1)).on('click', selectSquare);
+      //augment the position for the next key
       position += 21;
+      //augment the id of the key for the next one
       idKey++;
     }
-
+    //augment the position for the next column
     positionLeft += 21;
 
   }
@@ -116,17 +141,22 @@ function initiateDrawGame(){
   octaves();
 }
 
+//function to set the hover onn each key, depending on which color is selected
 function setHoverColor(){
+  //get all the keys of the grid
   $keys = $('.keys');
+
+  //when one key is hovered, set its border to the current selected color
   $keys.hover(function(){
     $(this).css('border', '2px solid '+hoverColor);
   });
+  //then set it back to black when the mouse is out
   $keys.mouseout(function(){
+    //if it's the last row, put a border all around..
     if($(this)[0].id >= 871){
       $(this).css('border', '');
       $(this).css('border-right', '1px solid black');
-    }else{
-
+    }else{ //if not, don't put a border-right
       $(this).css('border', '');
       $(this).css('border-right', 'none');
     }
@@ -135,55 +165,71 @@ function setHoverColor(){
   });
 
 }
-
+//function that sets the current color and plays a note accordingly
 function selectColor(){
+  //cannot choose a different color when the clip is playing
   if(playing){
+    //display the alert that says you can't use this function right now
     $("#drawAlert").css("display", "block");
     setTimeout(function(){
+      //removes it after 3 seconds
       $("#drawAlert").css("display", "none");
     },3000);
   }else{
+    //if its not playing...
+    //check the id of the div clicked and matches it with one of the arrNotes
+    //blue is C, red is D, green is E, yellow is F, orange is G, purple is A,
+    //black is B and pink is C but one octave higher and the eraser is white
     switch (this.id) {
+      //blue
       case 'color1':
       hoverColor=colors[1-1];
       setHoverColor();
       currentInstrument.play('C', 4, 2);
         break;
+      //red
       case 'color2':
       hoverColor=colors[2-1];
       setHoverColor();
       currentInstrument.play('D', 4, 2);
         break;
+      //green
       case 'color3':
       hoverColor=colors[3-1];
       setHoverColor();
       currentInstrument.play('E', 4, 2);
         break;
+      //yellow
       case 'color4':
       hoverColor=colors[4-1];
       setHoverColor();
       currentInstrument.play('F', 4, 2);
         break;
+      //orange
       case 'color5':
       hoverColor=colors[5-1];
       setHoverColor();
       currentInstrument.play('G', 4, 2);
         break;
+      //purple
       case 'color6':
       hoverColor=colors[6-1];
       setHoverColor();
       currentInstrument.play('A', 4, 2);
         break;
+      //black
       case 'color7':
       hoverColor=colors[7-1];
       setHoverColor();
       currentInstrument.play('B', 4, 2);
         break;
+      //pink
       case 'color8':
       hoverColor=colors[8-1];
       setHoverColor();
       currentInstrument.play('C', 5, 2);
         break;
+      //eraser
       case 'eraser':
       hoverColor='#ffffff';
       setHoverColor();
@@ -192,6 +238,7 @@ function selectColor(){
   }
 }
 
+///////////////////////////////////TU ES RENDUE ICI///////////////////////////////////////
 function selectSquare(){
   if(playing){
     $("#drawAlert").css("display", "block");
