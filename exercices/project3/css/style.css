@@ -55,8 +55,11 @@ This is the style file for this project.
   transition: all .2s ease-in-out;
 }
 
-#colorSelector #play-button, #writingGame #play{
+#colorSelector #play-button{
   left:20px;
+}
+#writingGame #play{
+  left: 35px;
 }
 #colorSelector #empty{
   left:70px;
@@ -144,7 +147,7 @@ This is the style file for this project.
   position: absolute;
   width:0px;
   height:10px;
-  background-color: purple;
+  background-color: red;
   left:10px;
   top: 100px;
   transition: all .2s ease-in-out;

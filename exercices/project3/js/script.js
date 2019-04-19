@@ -84,7 +84,7 @@ $(document).ready(function(){
 
   //Code and library found online
   Synth instanceof AudioSynth;
-  Synth.setVolume(0.1); //volume is way too loud and creates noise at 100% volume
+  Synth.setVolume(0.01); //volume is way too loud and creates noise at 100% volume
   var testInstance = new AudioSynth;
   testInstance instanceof AudioSynth;
 
