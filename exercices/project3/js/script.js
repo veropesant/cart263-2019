@@ -1,7 +1,7 @@
 "use strict";
 
 /*****************
-FINAL
+Final version
 Drawing music is now a thing
 Véronique Pesant
 
@@ -71,7 +71,7 @@ $(document).ready(function(){
 
   //Code and library found online to crete sounds and play instruments
   Synth instanceof AudioSynth;
-  Synth.setVolume(0.2); //volume is way too loud and creates noise at 100% volume
+  Synth.setVolume(0.3); //volume is way too loud and creates noise at 100% volume
   var testInstance = new AudioSynth;
   testInstance instanceof AudioSynth;
 
