@@ -7,12 +7,15 @@ Véronique Pesant
 
 So the goal of this project is to create a sort of grid canvas
 on which the player can create various patterns and then listen
-to them. That's right. Listen. Each row is going to represent a
-different note, and the different colors are going to represent
-the pitch. That might change...but for now it's the idea.
-
-This first exercice though is simply me trying to create a tool
-to select the colors and add a sound when clicked.
+to them. That's right. Listen. Each color is going to represent a
+different note, and the different rows are going to represent
+the octave.
+In this final version of the project, there is two versions of the
+game the player can choose from. The second game is similar to the first,
+but instead of drawing, the player can use the text area to write any
+text they want and then listen to it. In that version, each letter and
+punctuation is a note, and depending on where they are in the alphabet
+the octave increases.
 
 ******************/
 //VARIABLES
@@ -28,8 +31,8 @@ const RELEASE = 0.1;
 
 
 let $homePage; //home page before the game starts
-let $drawGamePage;
-let $writingGamePage;
+let $drawGamePage; //page for the drawing game
+let $writingGamePage; //page for the writing game
 
 //instruments
 let $instrumentsDraw;
@@ -41,48 +44,32 @@ let edm;
 let currentInstrumentId;
 let currentInstrument;
 
-//which game is being played
-let write = false;
-let draw = false;
 
 
+//when the document is loaded
 $(document).ready(function(){
-
-  console.log('ready');
+  //display the home page and hides the two games
   $homePage = $('#homePage').css('display', 'block');
   $drawGamePage = $('#drawingGame').css('display', 'none');
   $writingGamePage = $('#writingGame').css('display', 'none');
+
+  //create the instrument choice bar in both games
   initiateInstruments();
+
+  //if the player chooses to draw, the function to initiate it is called and vice versa
   $('#btnDraw').on('click', function(){
     initiateDrawGame();
   });
   $('#btnWrite').on('click', function(){
     initiateWritingGame();
   });
+
+  //creates a event listener on the menu button and calls a function
+  //that confirms the intention of the player
   $('.backToMenu').on('click', confirmBack);
 
-  // kick = new Pizzicato.Sound({
-  //   source: 'file',
-  //   options: {
-  //     path: 'assets/sounds/kick.wav'
-  //   }
-  // });
-  //
-  // snare = new Pizzicato.Sound({
-  //   source: 'file',
-  //   options: {
-  //     path: 'assets/sounds/snare.wav'
-  //   }
-  // });
-  //
-  // hihat = new Pizzicato.Sound({
-  //   source: 'file',
-  //   options: {
-  //     path: 'assets/sounds/hihat.wav'
-  //   }
-  // });
 
-  //Code and library found online
+  //Code and library found online to crete sounds and play instruments
   Synth instanceof AudioSynth;
   Synth.setVolume(0.01); //volume is way too loud and creates noise at 100% volume
   var testInstance = new AudioSynth;
@@ -90,10 +77,10 @@ $(document).ready(function(){
 
   testInstance === Synth;
   Synth.setSampleRate(10000);
-  piano = Synth.createInstrument('piano');
-  acoustic = Synth.createInstrument('acoustic');
-  organ = Synth.createInstrument('organ');
-  edm = Synth.createInstrument('edm');
+  piano = Synth.createInstrument('piano'); //creates the piano to use later
+  acoustic = Synth.createInstrument('acoustic');// " " acoustic
+  organ = Synth.createInstrument('organ');// " " organ
+  edm = Synth.createInstrument('edm');// " " edm
   //end of code found online
 
   //sets the default instrument to piano
@@ -101,8 +88,11 @@ $(document).ready(function(){
 
 })
 
+//this is the function to confirm the intention of going back to the home
+//because progress will be lost if you do
 function confirmBack(){
   let youSure = confirm('If you go back to the menu your art will be lost...');
+  //if the user is sure, reload the page (bringing you back to the menu)
   if(youSure == true){
     location.reload();
   }
@@ -111,12 +101,12 @@ function confirmBack(){
 function initiateInstruments(){
   //eventListener on instrument buttons
 
-
+  //creates 2 different sets of instruments depending in the page
   $instrumentsDraw = $('#instrumentChoiceDraw .instruments');
-
   $instrumentsWrite = $('#instrumentChoiceWrite .instruments');
 
-
+  //adds event listeners on all the instruments and calls
+  //a function to set the instrument when one of them is clicked
   for(let i=0; i<=$instrumentsDraw.length-1; i++){
     let currentId = $instrumentsDraw[i].id;
     $('#'+currentId).on('click', setInstrument);
@@ -128,7 +118,10 @@ function initiateInstruments(){
   }
 
 }
+
+//sets the currentInstrument variable to the one that was clicked
 function setInstrument(){
+  //sets all the instruments to black in both pages...
   for(let i=0; i<=$instrumentsWrite.length-1; i++){
     $($instrumentsWrite[i]).css('background-color', 'black');
   }
@@ -136,7 +129,11 @@ function setInstrument(){
     $($instrumentsDraw[i]).css('background-color', 'black');
   }
   currentInstrumentId = $(this)[0].id;
+
+  //...then sets the selected one to red
   $(this).css('background-color', 'red');
+
+  //and finally set the current instrument variable
   if(currentInstrumentId.includes('piano')){
     currentInstrument=piano;
   }else if(currentInstrumentId.includes('acoustic')){

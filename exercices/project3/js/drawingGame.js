@@ -12,9 +12,6 @@ let activeColumn=1;
 
 let hoverColor = '#6BB7EB';
 let colors = [blue, red, green, yellow, orange, purple, black, pink];
-let hihat;
-let kick;
-let snare;
 let sound;
 let $keys;
 let $colors;
