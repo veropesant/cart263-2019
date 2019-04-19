@@ -238,21 +238,28 @@ function selectColor(){
   }
 }
 
-///////////////////////////////////TU ES RENDUE ICI///////////////////////////////////////
+//function that select a key by giving it a background-color corresponding
+//the current hover color
 function selectSquare(){
+  //if the clip is playing, display the alert that says you can't use this
+  //function at the moment
   if(playing){
     $("#drawAlert").css("display", "block");
     setTimeout(function(){
       $("#drawAlert").css("display", "none");
     },3000);
   }else{
+    //id of the selected key
     currentId = this.id;
     let currentBg = $(this).css('background-color')
     if(!$(this).hasClass('selected')){
         $(this).addClass('selected');
     }
+    //if the current color coresponds to white (the eraser)
+    //set the background to empty. We don't want it to be white.
     if(hoverColor == '#ffffff' && currentBg != emptyBg){
       $(this).css('background-color', emptyBg);
+      //adjust the number of keys selected at the moment
       if(keysSelected>0){
         keysSelected -=1;
       }
@@ -261,11 +268,12 @@ function selectSquare(){
       keysSelected+=1;
     }
 
-    // playNote(hoverColor, 4);
+    playNote(hoverColor, 4);
   }
 
 }
-
+//plays the right note according to the instrument currently selected,
+//the note (the note being the color) received and the octave received
 function playNote(colorToPlay, octave){
   switch (colorToPlay) {
     case blue:
@@ -295,20 +303,24 @@ function playNote(colorToPlay, octave){
   }
 }
 
+//function that goes through each key of each columns and plays them
+//the keys of a same column play all at the same time
 function playMusic(){
-
+  //don't play if there are currently no keys selected(colored)
   if(keysSelected>0 && playing==true){
 
     let arrayKey = $('#column'+activeColumn).children();
-
+    //progression bar of the clip
     $('#timer').css('width', timerLength + 'px');
 
     for(let i=1; i<=arrayKey.length; i++){
       let currentOctave;
       let colorNotconverted = $("#"+arrayKey[i-1].id).css('background-color');
       let colorId = $("#"+arrayKey[i-1].id)[0].id;
-
       let keyColor = rgb2hex($("#"+arrayKey[i-1].id).css('background-color'));
+
+      //using indexOf() to determine in which octave array the current color
+      //being played is in and send it to the functions that plays the notes
       if(colorNotconverted != "rgba(0, 0, 0, 0)"){
         if(octave1.indexOf(colorId) != -1){
           currentOctave = 1;
@@ -323,11 +335,12 @@ function playMusic(){
         }else if(octave6.indexOf(colorId) != -1){
           currentOctave = 6;
         }
-
+        //sends the current color and current octave
         playNote(keyColor.toUpperCase(), currentOctave);
       }
     }
-
+    //calls the same function after 0.3 second, as long as we
+    //haven't reached the total number of column (30)
     setTimeout(function(){
       if(activeColumn<=columnNumber){
         activeColumn+=1;
@@ -337,6 +350,7 @@ function playMusic(){
         playing = false;
         activeColumn=1;
         timerLength=0;
+        //reset the progression bar length to zero
         $('#timer').css('width', timerLength + 'px');
 
       }
@@ -354,7 +368,8 @@ function rgb2hex(rgb){
 }
 //end of code found online
 
-
+//function that makes an alert pop up to make sure the player really wants
+//to empty the whole grid
 function confirmEmpty(){
   if(keysSelected>0){
     let confirmation = confirm('Do you really want to erase your drawing?');
@@ -364,6 +379,8 @@ function confirmEmpty(){
   }
 }
 
+//function that actually empties the grid byt going through all the
+//columns and setting each key's background to empty.
 function emptyGrid(){
   let currentColumn=1;
   keysSelected=0;
@@ -381,11 +398,12 @@ function emptyGrid(){
 }
 
 
-function undo(){
-  $('#'+currentId).css('background', 'rgba(0,0,0,0)');
-}
-
+//function that separates the different keys of the grid (using the slice function
+//on the children of each column) in 6 different arrays, each corresponding
+//to a different octave.
 function octaves(){
+
+  //first group of 5 keys of each column
   for(let i=0; i<= columnNumber; i++){
      let currentChildren = $('#column'+i).children().slice(0,5);
      for(let j=0; j <= currentChildren.length-1; j++){
@@ -393,6 +411,7 @@ function octaves(){
      }
 
   }
+  //second group of 5 keys of each column
   for(let i=0; i<= columnNumber; i++){
      let currentChildren = $('#column'+i).children().slice(5,10);
      for(let j=0; j <= currentChildren.length-1; j++){
@@ -402,24 +421,28 @@ function octaves(){
      }
 
   }
+  //third group of 5 keys of each column
   for(let i=0; i<= columnNumber; i++){
      let currentChildren = $('#column'+i).children().slice(10,15);
      for(let j=0; j <= currentChildren.length-1; j++){
        octave3.push(currentChildren[j].id);
      }
   }
+  //fourth group of 5 keys of each column
   for(let i=0; i<= columnNumber; i++){
      let currentChildren = $('#column'+i).children().slice(15,20);
      for(let j=0; j <= currentChildren.length-1; j++){
        octave4.push(currentChildren[j].id);
      }
   }
+  //fifth group of 5 keys of each column
   for(let i=0; i<= columnNumber; i++){
      let currentChildren = $('#column'+i).children().slice(20,25);
      for(let j=0; j <= currentChildren.length-1; j++){
        octave5.push(currentChildren[j].id);
      }
   }
+  //sixth group of 5 keys of each column
   for(let i=0; i<= columnNumber; i++){
      let currentChildren = $('#column'+i).children().slice(25,30);
      for(let j=0; j <= currentChildren.length-1; j++){

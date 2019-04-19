@@ -1,10 +1,13 @@
+//main elements of the page
 let $btnPlay;
 let text;
 
+//arrays
 let arrLetters = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", " ", ",", ".", "!", "?", ";", "-", "'"];
 let arrNotes = ["C", "D", "E", "F", "G", "A", "B", "C", "D", "E", "F", "G", "A", "B", "C", "D", "E", "F", "G", "A", "B", "C", "D", "E", "F", "G", "A", "B", "C", "D", "E", "F", "G", "A"];
-
 let melody = [];
+
+//dynamic variables
 let noteCounter = 0;
 let progressionLength=0;
 
@@ -15,6 +18,7 @@ let progressionLength=0;
 //////////////////////////////////////////////////////
 /////////////////////////////////////////////////////
 
+//hides the home page and displays the writing game page
 function initiateWritingGame(){
   $('#homePage').css('display', 'none');
   $('#writingGame').css('display', 'block');
@@ -23,6 +27,7 @@ function initiateWritingGame(){
 
 
   $btnPlay = $("#play");
+  //event listener on the play button
   $btnPlay.on("click", function(){
     play = true;
     createMelody();
@@ -30,7 +35,7 @@ function initiateWritingGame(){
 
 }
 
-
+//groups the notes that are going to be played
 function createMelody(){
   console.log("createMelody");
   let typedText = $("#text").val();
@@ -56,28 +61,33 @@ function createMelody(){
     melody.push(noteToPlay);
 
   }
-  console.log(melody);
   playMelody();
 }
 
+//plays the melody previously put in an array, by going through that array
 function playMelody(){
 
   if(melody.length > 0){
+    //uses the predetermined length of the input text, and the number
+    //of characters typed in at the moment to determine the increment of
+    //the progression bar
     let lengthIncrement = 300/melody.length;
     $("#text").prop('disabled', true); // the player can't write while the clip is playing
-    $('#progression').css('width', progressionLength);
+    $('#progression').css('width', progressionLength); //updates the progression bar
     let currentMelody = melody[noteCounter].split('');
     let currentNote= currentMelody[0];
     let currentOctave = parseInt(currentMelody[1]);
-    console.log(currentMelody);
     currentInstrument.play(currentNote, currentOctave, 2); //2 is the piano profile, always the same
     noteCounter++;
 
+    //calls the same function again as long as the melody's length is
+    //not reached
     setTimeout(function(){
       if(noteCounter < melody.length){
         playMelody();
-        progressionLength+=lengthIncrement;
+        progressionLength+=lengthIncrement;//augments the length of the progression bar
       }else{
+        //sets everything back to zero
         noteCounter = 0;
         melody=[];
         $("#text").prop('disabled', false);
@@ -88,6 +98,8 @@ function playMelody(){
 
     },300);
   }else{
+    //if nothing is written in the text area, displays the alert that
+    //says to write something before playing it.
     $('#alertWrite').css("display", 'block');
     setTimeout(function(){
       $('#alertWrite').css("display", 'none');
