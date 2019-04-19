@@ -129,7 +129,14 @@ function initiateInstruments(){
 
 }
 function setInstrument(){
+  for(let i=0; i<=$instrumentsWrite.length-1; i++){
+    $($instrumentsWrite[i]).css('background-color', 'black');
+  }
+  for(let i=0; i<=$instrumentsDraw.length-1; i++){
+    $($instrumentsDraw[i]).css('background-color', 'black');
+  }
   currentInstrumentId = $(this)[0].id;
+  $(this).css('background-color', 'red');
   if(currentInstrumentId.includes('piano')){
     currentInstrument=piano;
   }else if(currentInstrumentId.includes('acoustic')){
